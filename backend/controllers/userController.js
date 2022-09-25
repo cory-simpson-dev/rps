@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const User = require('../models/userModel')
+const Post = require('../models/postModel')
 
 // @desc    Register a new user
 // @route   /api/users
@@ -73,16 +74,19 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get current user
-// @route   /api/users/me
-// @access  Private
-const getMe = asyncHandler(async (req, res) => {
-    const user = {
-        id: req.user._id,
-        email: req.user.email,
-        name: req.user.name
+// @route   /api/users/:id
+// @access  Public
+const getUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id)
+
+    if(!user) {
+        res.status(404)
+        throw new Error('User not found')
     }
 
-    res.status(200).json(user)
+    const userPosts = await Post.find({user: user._id})
+
+    res.status(200).json(userPosts)
 })
 
 // Generate token
@@ -96,5 +100,5 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
-    getMe
+    getUser
 }
