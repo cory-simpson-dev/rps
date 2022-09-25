@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {getPosts, resetPost} from '../features/posts/postSlice'
 import Spinner from '../components/Spinner'
 import BackButton from '../components/BackButton'
+import PostItem from '../components/PostItem'
 
 function Posts() {
     const {posts, isLoading, isSuccess} = useSelector((state) => state.posts)
@@ -28,9 +29,22 @@ function Posts() {
     }
 
   return (
-    <div>
-      <h1>Posts</h1>
-    </div>
+    <>
+        <BackButton url='/' />
+        <h1>All Posts</h1>
+        {/* ticket classNames only kept for current styles */}
+        <div className="tickets">
+            <div className="ticket-headings">
+                <div>createdAt</div>
+                <div>title</div>
+                <div>body</div>
+                <div>etc...</div>
+            </div>
+            {posts.map((post) => {
+                return <PostItem key={post._id} post={post} />
+            })}
+        </div>
+    </>
   )
 }
 
