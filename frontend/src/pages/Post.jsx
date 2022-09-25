@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import {toast} from 'react-toastify'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPost, resetPost} from '../features/posts/postSlice'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
+import UserButton from '../components/UserButton'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
 
@@ -48,7 +49,8 @@ function Post() {
             <span className='status status-closed'>{post.downvotes}</span>
         </h3>
         <h4>Written at {new Date(post.createdAt).toLocaleString('en-US')}</h4>
-        <h2>{post.title} <span>{post.user}</span></h2>
+        <h2>{post.title}</h2>
+        <UserButton url={`/user/${post.user}`} user={post.user}/>
         {/* horizontal rule = hr */}
         <hr />
         <div className="post-desc">

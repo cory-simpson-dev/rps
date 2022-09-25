@@ -38,6 +38,7 @@ function Posts() {
                 <div>title</div>
                 <div>body</div>
                 <div>upvotes&downvotes</div>
+                <div>links</div>
             </div>
             {posts.map((post) => {
                 return <PostItem key={post._id} post={post} />

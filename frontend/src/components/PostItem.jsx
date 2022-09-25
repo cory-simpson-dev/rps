@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom'
+import UserButton from './UserButton'
 
 function PostItem({post}) {
   return (
@@ -14,9 +15,12 @@ function PostItem({post}) {
           {post.downvotes}
         </div>
       </div>
+      <div>
+      <UserButton url={`/user/${post.user}`} user={post.user.slice(0,7)}/>
       <Link to={`/post/${post._id}`} className='btn btn-reverse btn-sm'>
-        View
+        View Post {post._id.slice(0,7)}
       </Link>
+      </div>
     </div>
   )
 }

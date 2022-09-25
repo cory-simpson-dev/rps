@@ -9,6 +9,7 @@ import Register from './pages/Register'
 import NewPost from './pages/NewPost'
 import Posts from './pages/Posts'
 import Post from './pages/Post'
+import UserPage from './pages/UserPage'
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path='/new-post' element={<PrivateRoute />}>
               <Route path='/new-post' element={<NewPost />} />
             </Route>
+            <Route path='/user/:userId' element={<UserPage />} />
           </Routes>
         </div>
       </Router>
