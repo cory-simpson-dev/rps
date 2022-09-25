@@ -16,8 +16,23 @@ const createPost = async (postData, token) => {
     return response.data
 }
 
+// Get user posts
+const getPosts = async (token) => {
+    const config = {
+        // token has to be in headers authorization field (same thing as postman, but through our app)
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.get(API_URL, config)
+
+    return response.data
+}
+
 const postService = {
-    createPost
+    createPost,
+    getPosts,
 }
 
 export default postService

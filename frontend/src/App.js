@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import NewPost from './pages/NewPost'
+import Posts from './pages/Posts'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/posts' element={<Posts />} />
             {/* need nested route for private routes (routes that require login) */}
             <Route path='/new-post' element={<PrivateRoute />}>
               <Route path='/new-post' element={<NewPost />} />

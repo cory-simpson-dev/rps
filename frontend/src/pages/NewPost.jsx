@@ -11,7 +11,7 @@ function NewPost() {
     // get user from global state (auth)
     const {user} = useSelector((state) => state.auth)
     // useSelector from post state (not auth)
-    const {isLoading, isError, isSuccess, message} = useSelector((state) => state.post)
+    const {isLoading, isError, isSuccess, message} = useSelector((state) => state.posts)
 
     // local state
     const [name] = useState(user.name)
