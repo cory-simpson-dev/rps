@@ -4,13 +4,10 @@ function Home() {
   return (
     <>
       <section className="heading">
-        <h1>What are you making?</h1>
-        <p>Please be creative</p>
+        <h1>This is the landing page</h1>
+        <p>Log in to make a post</p>
       </section>
 
-      <Link to='/new-post' className='btn btn-reverse btn-block'>
-        Create New Post
-      </Link>
       <Link to='/posts' className='btn btn-block'>
         View All Posts
       </Link>
