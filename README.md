@@ -7,6 +7,7 @@ Blog for rave-related content, featuring guides, stories and opinions from users
 - User accounts
 - User pages
 - Posting through CMS
+- Direct messaging
 - Commenting
 - Post/comment editing
 - Search/tag filter
@@ -14,5 +15,5 @@ Blog for rave-related content, featuring guides, stories and opinions from users
 ## Small Features
 
 - Ad space
-- Music/video support in articles
+- Media (music/video/image) support in articles
 - Transforming logo
