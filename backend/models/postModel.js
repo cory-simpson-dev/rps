@@ -10,19 +10,9 @@ const postSchema = mongoose.Schema({
         type: String,
         required: [true, 'Please add a title'],
     },
-    image: {
-        type: String,
-        required: true,
-        required: [true, 'Please add an image'],
-        default: 'pending front-end ui',
-    },
-    cloudinaryId: {
-        type: String,
-        required: true,
-        default: 'pending front-end ui',
-    },
     body: {
         type: String,
+        default: 'test body',
     },
     upvotes: {
         type: Number,
@@ -37,3 +27,5 @@ const postSchema = mongoose.Schema({
 },{
     timestamps: true,
 })
+
+module.exports = mongoose.model('Post', postSchema)
