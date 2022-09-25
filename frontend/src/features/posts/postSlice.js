@@ -31,9 +31,7 @@ export const createPost = createAsyncThunk('posts/create', async (postData, thun
 // to access thunkAPI, use _ to skip the argument
 export const getPosts = createAsyncThunk('posts/getAll', async (_, thunkAPI) => {
     try {
-        // use thunkAPI method .getState() to retrieve data from ANY state (auth state in this case)
-        const token = thunkAPI.getState().auth.user.token
-        return await postService.getPosts(token)
+        return await postService.getPosts()
     } catch (err) {
         // grab error message from anywhere/everywhere
         const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
