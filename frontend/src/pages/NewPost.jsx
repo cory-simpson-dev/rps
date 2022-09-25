@@ -1,22 +1,54 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 // get user from global state using useSelector
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
+import {createPost, resetPost} from '../features/posts/postSlice'
+import Spinner from '../components/Spinner'
+import BackButton from '../components/BackButton'
 
 function NewPost() {
-    // get user from global state
+    // get user from global state (auth)
     const {user} = useSelector((state) => state.auth)
+    // useSelector from post state (not auth)
+    const {isLoading, isError, isSuccess, message} = useSelector((state) => state.post)
+
     // local state
     const [name] = useState(user.name)
     const [email] = useState(user.email)
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
 
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(isError) {
+            toast.error(message)
+        }
+
+        if(isSuccess) {
+            dispatch(resetPost())
+            navigate('/posts')
+        }
+
+        dispatch(resetPost())
+        // dependencies go at end of useEffect() as array
+    }, [dispatch, isError, isSuccess, navigate, message])
+
     const onSubmit = (e) => {
         e.preventDefault()
+        // uses postSlice & postService
+        dispatch(createPost({title, body}))
+    }
+
+    if(isLoading) {
+        return <Spinner />
     }
 
   return (
     <>
+        <BackButton url='/' />
         <section className="heading">
             <h1>Create New Post</h1>
             <p>Please fill out the form below</p>

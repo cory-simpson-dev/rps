@@ -13,6 +13,20 @@ const initialState = {
     message: ''
 }
 
+// Create new post
+export const createPost = createAsyncThunk('posts/create', async (postData, thunkAPI) => {
+    try {
+        // use thunkAPI method .getState() to retrieve data from ANY state (auth state in this case)
+        const token = thunkAPI.getState().auth.user.token
+        return await postService.createPost(postData, token)
+    } catch (err) {
+        // grab error message from anywhere/everywhere
+        const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+        // action payload if rejected
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const postSlice = createSlice({
     name: 'post',
     initialState,
@@ -20,7 +34,19 @@ export const postSlice = createSlice({
         resetPost: (state) => initialState
     },
     extraReducers: (builder) => {
-
+        builder
+            .addCase(createPost.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(createPost.fulfilled, (state) => {
+                state.isLoading = false
+                state.isSuccess = true
+            })
+            .addCase(createPost.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
     }
 })
 
