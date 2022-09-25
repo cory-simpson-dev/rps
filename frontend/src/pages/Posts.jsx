@@ -35,10 +35,9 @@ function Posts() {
         {/* ticket classNames only kept for current styles */}
         <div className="tickets">
             <div className="ticket-headings">
-                <div>createdAt</div>
                 <div>title</div>
                 <div>body</div>
-                <div>etc...</div>
+                <div>upvotes&downvotes</div>
             </div>
             {posts.map((post) => {
                 return <PostItem key={post._id} post={post} />

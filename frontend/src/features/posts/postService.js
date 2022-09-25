@@ -19,13 +19,22 @@ const createPost = async (postData, token) => {
 // Get user posts
 const getPosts = async () => {
     const response = await axios.get(API_URL)
-    
+
+    return response.data
+}
+
+// Get user post
+const getPost = async (postId, token) => {
+    // postId comes from postSlice
+    const response = await axios.get(API_URL + postId)
+
     return response.data
 }
 
 const postService = {
     createPost,
     getPosts,
+    getPost,
 }
 
 export default postService
