@@ -84,7 +84,7 @@ const getUser = asyncHandler(async (req, res) => {
         throw new Error('User not found')
     }
 
-    const userPosts = await Post.find({user: user._id})
+    const userPosts = await Post.find({user: user._id}).sort({'createdAt': -1})
 
     res.status(200).json(userPosts)
 })

@@ -24,6 +24,12 @@ const postSchema = mongoose.Schema({
         required: true,
         default: 0,
     },
+    upvotedBy: {
+        type: Array,
+    },
+    downvotedBy: {
+        type: Array,
+    },
 },{
     timestamps: true,
 })
