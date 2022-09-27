@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import {toast} from 'react-toastify'
 import {useSelector, useDispatch} from 'react-redux'
-import {getUserPosts, resetUserPost} from '../features/users/userSlice'
+import {getUserPosts, resetPost} from '../features/posts/postSlice'
 import { useParams } from 'react-router-dom'
 import Spinner from '../components/Spinner'
 import PostItem from '../components/PostItem'
 
 function UserPage() {
-    const {posts, isLoading, isSuccess, isError, message} = useSelector((state) => state.user)
+    const {posts, isLoading, isSuccess, isError, message} = useSelector((state) => state.posts)
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -16,7 +16,7 @@ function UserPage() {
     useEffect(() => {
         return () => {
             if(isSuccess) {
-                dispatch(resetUserPost())
+                dispatch(resetPost())
             }
         }
     }, [dispatch, isSuccess])

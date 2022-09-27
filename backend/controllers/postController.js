@@ -139,7 +139,7 @@ const handleUpvote = asyncHandler(async (req, res) => {
     if (post.upvotedBy.indexOf(req.user.id) > -1) {
         handledPost = await Post.findByIdAndUpdate(req.params.id, 
             {
-                $pull: {'upvotedBy': req.user.id}
+                $pull: {'upvotedBy': req.user.id},
             }, { new: true }
         )
     // if post previously downvoted by user, remove from down votes && add to upvotes
@@ -147,14 +147,14 @@ const handleUpvote = asyncHandler(async (req, res) => {
         handledPost = await Post.findByIdAndUpdate(req.params.id, 
             {
                 $pull: {'downvotedBy': req.user.id},
-                $push: {'upvotedBy': req.user.id}
+                $push: {'upvotedBy': req.user.id},
             }, { new: true }
         )
     // otherwise, add user to upvotedBy
     } else {
         handledPost = await Post.findByIdAndUpdate(req.params.id, 
             {
-                $push: {'upvotedBy': req.user.id}
+                $push: {'upvotedBy': req.user.id},
             }, { new: true })
     }
 
@@ -187,7 +187,7 @@ const handleDownvote = asyncHandler(async (req, res) => {
     if (post.downvotedBy.indexOf(req.user.id) > -1) {
         handledPost = await Post.findByIdAndUpdate(req.params.id, 
             {
-                $pull: {'downvotedBy': req.user.id}
+                $pull: {'downvotedBy': req.user.id},
             }, { new: true }
         )
     // if post previously upvoted by user, remove from up votes && add to downvotes
@@ -195,14 +195,14 @@ const handleDownvote = asyncHandler(async (req, res) => {
         handledPost = await Post.findByIdAndUpdate(req.params.id, 
             {
                 $pull: {'upvotedBy': req.user.id},
-                $push: {'downvotedBy': req.user.id}
+                $push: {'downvotedBy': req.user.id},
             }, { new: true }
         )
     // otherwise, add user to downvotedBy
     } else {
         handledPost = await Post.findByIdAndUpdate(req.params.id, 
             {
-                $push: {'downvotedBy': req.user.id}
+                $push: {'downvotedBy': req.user.id},
             }, { new: true })
     }
 

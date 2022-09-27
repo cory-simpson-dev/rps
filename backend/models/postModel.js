@@ -14,16 +14,6 @@ const postSchema = mongoose.Schema({
         type: String,
         default: 'test body',
     },
-    upvotes: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
-    downvotes: {
-        type: Number,
-        required: true,
-        default: 0,
-    },
     upvotedBy: {
         type: Array,
     },
