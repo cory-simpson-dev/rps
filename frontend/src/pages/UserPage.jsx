@@ -5,11 +5,15 @@ import {getUserPosts, resetPost} from '../features/posts/postSlice'
 import { useParams } from 'react-router-dom'
 import Spinner from '../components/Spinner'
 import PostItem from '../components/PostItem'
+import SearchBar from '../components/SearchBar'
 
 function UserPage() {
     const {posts, isLoading, isSuccess, isError, message} = useSelector((state) => state.posts)
 
     const [currentPosts, setCurrentPosts] = useState([...posts])
+
+    // track search field
+    const [search, setSearch] = useState('')
 
     // create filter options
     const filterOptions = [
@@ -52,7 +56,6 @@ function UserPage() {
                 return 0
             }))
         }
-        console.log(currentPosts);
     }
 
     const params = useParams()
@@ -94,6 +97,7 @@ function UserPage() {
         <h1>{userId.slice(0,7)} Posts</h1>
         {/* ticket classNames only kept for current styles */}
         <div className="tickets">
+            <SearchBar searchState={search} searchStateSet={setSearch}/>
             <div className="ticket-headings">
                 <select value={selectedFilter} onChange={handleFilterChange}>
                     {filterOptions.map(option => (
@@ -109,7 +113,15 @@ function UserPage() {
                 <div>upvotes&downvotes</div>
                 <div>links</div>
             </div>
-            {currentPosts.map((post) => {
+            {currentPosts.filter((post) => {
+                if (search === '') {
+                    return post
+                } else {
+                    if (post.title.toLowerCase().includes(search.toLowerCase())) {
+                        return post
+                    }
+                }
+            }).map((post) => {
                 return <PostItem key={post._id} post={post} />
             })}
         </div>

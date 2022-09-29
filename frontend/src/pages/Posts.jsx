@@ -4,12 +4,16 @@ import {getPosts, resetPost} from '../features/posts/postSlice'
 import Spinner from '../components/Spinner'
 import BackButton from '../components/BackButton'
 import PostItem from '../components/PostItem'
+import SearchBar from '../components/SearchBar'
 
 function Posts() {
     // get posts from postSlice
     const {posts, isLoading, isSuccess} = useSelector((state) => state.posts)
 
     const [currentPosts, setCurrentPosts] = useState([...posts])
+
+    // track search field
+    const [search, setSearch] = useState('')
 
     // create filter options
     const filterOptions = [
@@ -85,6 +89,7 @@ function Posts() {
         <h1>All Posts</h1>
         {/* ticket classNames only kept for current styles */}
         <div className="tickets">
+            <SearchBar searchState={search} searchStateSet={setSearch}/>
             <div className="ticket-headings">
                 <select value={selectedFilter} onChange={handleFilterChange}>
                     {filterOptions.map(option => (
@@ -100,7 +105,15 @@ function Posts() {
                 <div>upvotes&downvotes</div>
                 <div>links</div>
             </div>
-            {currentPosts.map((post) => {
+            {currentPosts.filter((post) => {
+                if (search === '') {
+                    return post
+                } else {
+                    if (post.title.toLowerCase().includes(search.toLowerCase())) {
+                        return post
+                    }
+                }
+            }).map((post) => {
                 return <PostItem key={post._id} post={post} />
             })}
         </div>
