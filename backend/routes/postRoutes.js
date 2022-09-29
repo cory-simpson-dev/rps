@@ -4,6 +4,10 @@ const router = express.Router();
 const {getPosts, getPost, createPost, deletePost, updatePost, handleUpvote, handleDownvote} = require('../controllers/postController')
 const { protect } = require('../middleware/authMiddleware')
 
+// re-route into comment router
+const commentRouter = require('./commentRoutes')
+router.use('/:postId/comments', commentRouter)
+
 // router.route allows additional methods to be chained on (i.e. get/post)
 // route /api/posts
 router.route('/').get(getPosts).post(protect, createPost)

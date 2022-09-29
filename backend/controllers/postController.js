@@ -17,7 +17,7 @@ const getPosts = asyncHandler(async (req, res) => {
 // @access  Public
 const getPost = asyncHandler(async (req, res) => {
     const post = await Post.findById(req.params.id)
-  
+    
     if(!post) {
         res.status(404)
         throw new Error('Post not found')
