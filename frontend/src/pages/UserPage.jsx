@@ -6,10 +6,13 @@ import { useParams } from 'react-router-dom'
 import Spinner from '../components/Spinner'
 import PostItem from '../components/PostItem'
 import SearchBar from '../components/SearchBar'
+import Filter from '../components/Filter'
 
 function UserPage() {
+    // get posts from postSlice
     const {posts, isLoading, isSuccess, isError, message} = useSelector((state) => state.posts)
 
+    // create mutible posts copy
     const [currentPosts, setCurrentPosts] = useState([...posts])
 
     // track search field
@@ -23,40 +26,8 @@ function UserPage() {
         {value: 'mostDownvotes', text: 'Least Appreciated'},
     ]
 
+    // track filter option
     const [selectedFilter, setSelectedFilter] = useState(filterOptions[0].value)
-
-    const handleFilterChange = (e) => {
-        setSelectedFilter(e.target.value)
-        // update posts based on filter value
-        if (e.target.value === 'mostUpvotes') {
-            setCurrentPosts(() => currentPosts.sort((a,b) => b.upvotedBy.length - a.upvotedBy.length))
-        }
-        if (e.target.value === 'mostDownvotes') {
-            setCurrentPosts(() => currentPosts.sort((a,b) => b.downvotedBy.length - a.downvotedBy.length))
-        }
-        if (e.target.value === 'dateNewest') {
-            setCurrentPosts(() => currentPosts.sort((a,b) => {
-                if (a.createdAt < b.createdAt) {
-                    return 1;
-                }
-                if (a.createdAt > b.createdAt) {
-                    return -1;
-                }
-                return 0
-            }))
-        }
-        if (e.target.value === 'dateOldest') {
-            setCurrentPosts(() => currentPosts.sort((a,b) => {
-                if (a.createdAt > b.createdAt) {
-                    return 1;
-                }
-                if (a.createdAt < b.createdAt) {
-                    return -1;
-                }
-                return 0
-            }))
-        }
-    }
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -98,22 +69,36 @@ function UserPage() {
         {/* ticket classNames only kept for current styles */}
         <div className="tickets">
             <SearchBar searchState={search} searchStateSet={setSearch}/>
-            <div className="ticket-headings">
-                <select value={selectedFilter} onChange={handleFilterChange}>
-                    {filterOptions.map(option => (
-                        <option key={option.value} value={option.value}>
-                            {option.text}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <Filter filterState={selectedFilter} filterStateSet={setSelectedFilter} providedFilterOptions={filterOptions}/>
             <div className="ticket-headings">
                 <div>title</div>
                 <div>body</div>
                 <div>upvotes&downvotes</div>
                 <div>links</div>
             </div>
-            {currentPosts.filter((post) => {
+            {currentPosts.sort((a,b) => {
+                if (selectedFilter === 'mostUpvotes') {
+                    return b.upvotedBy.length - a.upvotedBy.length
+                } else if (selectedFilter === 'mostDownvotes') {
+                    return b.downvotedBy.length - a.downvotedBy.length
+                } else if (selectedFilter === 'dateNewest') {
+                    if (a.createdAt < b.createdAt) {
+                        return 1;
+                    }
+                    if (a.createdAt > b.createdAt) {
+                        return -1;
+                    }
+                    return 0
+                } else if (selectedFilter === 'dateOldest') {
+                    if (a.createdAt > b.createdAt) {
+                        return 1;
+                    }
+                    if (a.createdAt < b.createdAt) {
+                        return -1;
+                    }
+                    return 0
+                }
+            }).filter((post) => {
                 if (search === '') {
                     return post
                 } else {

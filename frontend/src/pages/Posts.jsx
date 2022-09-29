@@ -5,11 +5,13 @@ import Spinner from '../components/Spinner'
 import BackButton from '../components/BackButton'
 import PostItem from '../components/PostItem'
 import SearchBar from '../components/SearchBar'
+import Filter from '../components/Filter'
 
 function Posts() {
     // get posts from postSlice
     const {posts, isLoading, isSuccess} = useSelector((state) => state.posts)
 
+    // create mutible posts copy
     const [currentPosts, setCurrentPosts] = useState([...posts])
 
     // track search field
@@ -17,48 +19,15 @@ function Posts() {
 
     // create filter options
     const filterOptions = [
-        {value: 'dateNewest', text: 'Newest'},
+        {value: 'dateNewest', text: 'Most Recent'},
         {value: 'dateOldest', text: 'Oldest'},
         {value: 'mostUpvotes', text: 'Most Appreciated'},
         {value: 'mostDownvotes', text: 'Least Appreciated'},
     ]
-
+    
+    // track filter option
     const [selectedFilter, setSelectedFilter] = useState(filterOptions[0].value)
     
-    const handleFilterChange = (e) => {
-        setSelectedFilter(e.target.value)
-        // update posts based on filter value
-        if (e.target.value === 'mostUpvotes') {
-            setCurrentPosts(() => currentPosts.sort((a,b) => b.upvotedBy.length - a.upvotedBy.length))
-        }
-        if (e.target.value === 'mostDownvotes') {
-            setCurrentPosts(() => currentPosts.sort((a,b) => b.downvotedBy.length - a.downvotedBy.length))
-        }
-        if (e.target.value === 'dateNewest') {
-            setCurrentPosts(() => currentPosts.sort((a,b) => {
-                if (a.createdAt < b.createdAt) {
-                    return 1;
-                }
-                if (a.createdAt > b.createdAt) {
-                    return -1;
-                }
-                return 0
-            }))
-        }
-        if (e.target.value === 'dateOldest') {
-            setCurrentPosts(() => currentPosts.sort((a,b) => {
-                if (a.createdAt > b.createdAt) {
-                    return 1;
-                }
-                if (a.createdAt < b.createdAt) {
-                    return -1;
-                }
-                return 0
-            }))
-        }
-        console.log(currentPosts);
-    }
-
     const dispatch = useDispatch()
 
     // extra useEffect for unmount
@@ -90,28 +59,40 @@ function Posts() {
         {/* ticket classNames only kept for current styles */}
         <div className="tickets">
             <SearchBar searchState={search} searchStateSet={setSearch}/>
-            <div className="ticket-headings">
-                <select value={selectedFilter} onChange={handleFilterChange}>
-                    {filterOptions.map(option => (
-                        <option key={option.value} value={option.value}>
-                            {option.text}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            <Filter filterState={selectedFilter} filterStateSet={setSelectedFilter} providedFilterOptions={filterOptions}/>
             <div className="ticket-headings">
                 <div>title</div>
                 <div>body</div>
                 <div>upvotes&downvotes</div>
                 <div>links</div>
             </div>
-            {currentPosts.filter((post) => {
+            {currentPosts.sort((a,b) => {
+                if (selectedFilter === 'mostUpvotes') {
+                    return b.upvotedBy.length - a.upvotedBy.length
+                } else if (selectedFilter === 'mostDownvotes') {
+                    return b.downvotedBy.length - a.downvotedBy.length
+                } else if (selectedFilter === 'dateNewest') {
+                    if (a.createdAt < b.createdAt) {
+                        return 1;
+                    }
+                    if (a.createdAt > b.createdAt) {
+                        return -1;
+                    }
+                    return 0
+                } else if (selectedFilter === 'dateOldest') {
+                    if (a.createdAt > b.createdAt) {
+                        return 1;
+                    }
+                    if (a.createdAt < b.createdAt) {
+                        return -1;
+                    }
+                    return 0
+                }
+            }).filter((post) => {
                 if (search === '') {
                     return post
-                } else {
-                    if (post.title.toLowerCase().includes(search.toLowerCase())) {
-                        return post
-                    }
+                } else if (post.title.toLowerCase().includes(search.toLowerCase())){
+                    return post
                 }
             }).map((post) => {
                 return <PostItem key={post._id} post={post} />
