@@ -1,5 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {toast} from 'react-toastify'
+import Modal from 'react-modal'
+import { FaPlus } from 'react-icons/fa'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPost, resetPost} from '../features/posts/postSlice'
 import { getComments, reset as commentsReset } from '../features/comments/commentSlice'
@@ -9,11 +11,33 @@ import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
 import CommentItem from '../components/CommentItem'
 
+// react modal styles
+const customStyles = {
+    content: {
+        width: '600px',
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        position: 'relative',
+    },
+}
+
+// looks in index.html to mount
+Modal.setAppElement('#root')
+
 function Post() {
+    // set local state for modal
+    const [modalIsOpen, setModalIsOpen] = useState(false)
+    const [commentText, setCommentText] = useState('')
+
     const {post, isLoading, isSuccess, isError, message} = useSelector((state) => state.posts)
     // get comments from state (isLoading is renamed via colon)
     const {comments, isLoading: commentsIsLoading} = useSelector((state) => state.comments)
-    
+    const {user} = useSelector((state) => state.auth)
+
     const params = useParams()
     const dispatch = useDispatch()
     const {postId} = params
@@ -36,6 +60,17 @@ function Post() {
         // dispatch not included as dependency because it will produce never ending loop, so we prevent eslint error with next line
         // eslint-disable-next-line
     }, [isError, message, postId])
+
+    // Create comment submit
+    const onCommentSubmit = (e) => {
+      e.preventDefault()
+      console.log('Submit')
+      closeModal()
+    }
+
+    // opens/closes modal for comment
+    const openModal = () => setModalIsOpen(true)
+    const closeModal = () => setModalIsOpen(false)
 
     if(isLoading || commentsIsLoading) {
         return <Spinner />
@@ -63,6 +98,33 @@ function Post() {
         </div>
         <h2>Comments</h2>
       </header>
+
+      {/* if user is logged in */}
+      {user ? (
+        <button onClick={openModal} className='btn'><FaPlus /> Add Comment</button>
+      ) : (
+        <button className='btn'>Sign in to Comment</button>
+      )}
+
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel='Add Comment'>
+        <h2>Add Comment</h2>
+        <button className="btn-close" onClick={closeModal}>X</button>
+        <form onSubmit={onCommentSubmit}>
+          <div className="form-group">
+            <textarea 
+              name="commentText" 
+              id="commentText" 
+              className='form-control' 
+              placeholder='Comment text' 
+              value={commentText} 
+              onChange={(e) => setCommentText(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="form-group">
+            <button className="btn" type='submit'>Submit</button>
+          </div>
+        </form>
+      </Modal>
 
       { comments.length > 0 ? 
         comments.map((comment) => (
