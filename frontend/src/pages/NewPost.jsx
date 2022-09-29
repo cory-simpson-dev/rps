@@ -29,12 +29,12 @@ function NewPost() {
 
         if(isSuccess) {
             dispatch(resetPost())
-            navigate('/posts')
+            navigate(`/user/${user._id}`)
         }
 
         dispatch(resetPost())
         // dependencies go at end of useEffect() as array
-    }, [dispatch, isError, isSuccess, navigate, message])
+    }, [dispatch, isError, isSuccess, navigate, message, user])
 
     const onSubmit = (e) => {
         e.preventDefault()
