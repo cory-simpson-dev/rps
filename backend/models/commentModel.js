@@ -22,6 +22,10 @@ const commentSchema = mongoose.Schema({
     downvotedBy: {
         type: Array,
     },
+    isStaff: {
+        type: Boolean,
+        default: false,
+    }
 },{
     timestamps: true,
 })

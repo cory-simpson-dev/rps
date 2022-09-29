@@ -2,14 +2,18 @@ import { useEffect } from 'react'
 import {toast} from 'react-toastify'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPost, resetPost} from '../features/posts/postSlice'
+import { getComments, reset as commentsReset } from '../features/comments/commentSlice'
 import { useParams, Link } from 'react-router-dom'
 import UserButton from '../components/UserButton'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
+import CommentItem from '../components/CommentItem'
 
 function Post() {
     const {post, isLoading, isSuccess, isError, message} = useSelector((state) => state.posts)
-
+    // get comments from state (isLoading is renamed via colon)
+    const {comments, isLoading: commentsIsLoading} = useSelector((state) => state.comments)
+    
     const params = useParams()
     const dispatch = useDispatch()
     const {postId} = params
@@ -28,11 +32,12 @@ function Post() {
         }
 
         dispatch(getPost(postId))
+        dispatch(getComments(postId))
         // dispatch not included as dependency because it will produce never ending loop, so we prevent eslint error with next line
         // eslint-disable-next-line
     }, [isError, message, postId])
 
-    if(isLoading) {
+    if(isLoading || commentsIsLoading) {
         return <Spinner />
     }
 
@@ -56,7 +61,17 @@ function Post() {
         <div className="post-desc">
             <p>{post.body}</p>
         </div>
+        <h2>Comments</h2>
       </header>
+
+      { comments.length > 0 ? 
+        comments.map((comment) => (
+        <CommentItem key={comment._id} comment={comment} />
+      )) :
+        <h4>Be the first to comment</h4>
+      }
+      
+
     </div>
   )
 }

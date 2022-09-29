@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = 'api/posts/'
+const API_URL = '/api/posts/'
 
 // Get post comments
 const getComments = async (postId) => {
