@@ -23,9 +23,39 @@ const createComment = async (commentText, postId, token) => {
     return response.data
 }
 
+// Upvote comment
+const upvoteComment = async (commentId, postId, userId, token) => {
+    const config = {
+        // token has to be in headers authorization field (same thing as postman, but through our app)
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.put(API_URL + postId + '/comments/upvoteComment/' + commentId, userId, config)
+
+    return response.data
+}
+
+// Downvote comment
+const downvoteComment = async (commentId, postId, userId, token) => {
+    const config = {
+        // token has to be in headers authorization field (same thing as postman, but through our app)
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.put(API_URL + postId + '/comments/downvoteComment/' + commentId, userId, config)
+
+    return response.data
+}
+
 const commentService = {
     getComments,
-    createComment
+    createComment,
+    upvoteComment,
+    downvoteComment,
 }
 
 export default commentService
