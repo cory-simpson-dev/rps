@@ -4,7 +4,7 @@ import Modal from 'react-modal'
 import { FaPlus } from 'react-icons/fa'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPost, resetPost} from '../features/posts/postSlice'
-import { getComments, reset as commentsReset } from '../features/comments/commentSlice'
+import { getComments, createComment, reset as commentsReset } from '../features/comments/commentSlice'
 import { useParams, Link } from 'react-router-dom'
 import UserButton from '../components/UserButton'
 import BackButton from '../components/BackButton'
@@ -64,7 +64,7 @@ function Post() {
     // Create comment submit
     const onCommentSubmit = (e) => {
       e.preventDefault()
-      console.log('Submit')
+      dispatch(createComment({commentText, postId}))
       closeModal()
     }
 

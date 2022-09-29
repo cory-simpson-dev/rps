@@ -21,6 +21,18 @@ export const getComments = createAsyncThunk('comments/getAll', async (postId, th
     }
 })
 
+// Create post comment
+export const createComment = createAsyncThunk('comments/create', async ({ commentText, postId }, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await commentService.createComment(commentText, postId, token)
+    } catch (err) {
+        const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+        // action payload if rejected
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const commentSlice = createSlice({
     name: 'comment',
     initialState,
@@ -39,6 +51,21 @@ export const commentSlice = createSlice({
                 state.comments = action.payload
             })
             .addCase(getComments.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(createComment.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(createComment.fulfilled, (state, action) => {
+                // have action as parameter because we are getting data
+                state.isLoading = false
+                state.isSuccess = true
+                // part of redux tool kit - allows to push to state (normally immutable)
+                state.comments.push(action.payload)
+            })
+            .addCase(createComment.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
