@@ -10,6 +10,7 @@ import NewPost from './pages/NewPost'
 import Posts from './pages/Posts'
 import Post from './pages/Post'
 import UserPage from './pages/UserPage'
+import MessageBoard from './pages/MessageBoard'
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
             {/* need nested route for private routes (routes that require login) */}
             <Route path='/new-post' element={<PrivateRoute />}>
               <Route path='/new-post' element={<NewPost />} />
+            </Route>
+            <Route path='/messaging' element={<PrivateRoute />}>
+              <Route path='/messaging' element={<MessageBoard />} />
             </Route>
             <Route path='/user/:userId' element={<UserPage />} />
           </Routes>

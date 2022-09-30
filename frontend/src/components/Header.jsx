@@ -1,4 +1,4 @@
-import {FaSignInAlt, FaSignOutAlt, FaUser, FaPlusCircle} from 'react-icons/fa'
+import {FaSignInAlt, FaSignOutAlt, FaUser, FaPlusCircle, FaMailBulk} from 'react-icons/fa'
 import {Link, useNavigate} from 'react-router-dom'
 import {useSelector, useDispatch} from 'react-redux'
 import {logout, reset} from '../features/auth/authSlice'
@@ -18,6 +18,10 @@ function Header() {
   const goNewPost = () => {
     navigate('/new-post')
   }
+
+  const goMessages = () => {
+    navigate('/messaging')
+  }
   
   return (
     <header className='header'>
@@ -30,6 +34,9 @@ function Header() {
           <>
             <li>
               <button className="btn" onClick={goNewPost}><FaPlusCircle /> New Post</button>
+            </li>
+            <li>
+              <button className="btn" onClick={goMessages}><FaMailBulk /> Messaging </button>
             </li>
             <li>
               <button className="btn" onClick={onLogout}><FaSignOutAlt /> Logout</button>
