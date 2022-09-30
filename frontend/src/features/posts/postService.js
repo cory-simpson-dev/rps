@@ -40,7 +40,7 @@ const getUserPosts = async (userId) => {
 }
 
 // Upvote post
-const upvotePost = async (postData, token) => {
+const upvotePost = async (postId, userId, token) => {
     const config = {
         // token has to be in headers authorization field (same thing as postman, but through our app)
         headers: {
@@ -48,13 +48,13 @@ const upvotePost = async (postData, token) => {
         }
     }
 
-    const response = await axios.put(API_URL + 'upvotePost/' + postData.id, postData.user._id, config)
+    const response = await axios.put(API_URL + 'upvotePost/' + postId, userId, config)
 
     return response.data
 }
 
 // Downvote post
-const downvotePost = async (postData, token) => {
+const downvotePost = async (postId, userId, token) => {
     const config = {
         // token has to be in headers authorization field (same thing as postman, but through our app)
         headers: {
@@ -62,7 +62,7 @@ const downvotePost = async (postData, token) => {
         }
     }
 
-    const response = await axios.put(API_URL + 'downvotePost/' + postData.id, postData.user._id, config)
+    const response = await axios.put(API_URL + 'downvotePost/' + postId, userId, config)
 
     return response.data
 }

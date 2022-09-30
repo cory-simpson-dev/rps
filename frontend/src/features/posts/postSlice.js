@@ -70,11 +70,11 @@ export const getUserPosts = createAsyncThunk('posts/getUserPosts', async (userId
 })
 
 // Upvote post
-export const upvotePost = createAsyncThunk('posts/upvote', async (postData, thunkAPI) => {
+export const upvotePost = createAsyncThunk('posts/upvote', async ({postId, userId}, thunkAPI) => {
     try {
         // use thunkAPI method .getState() to retrieve data from ANY state (auth state in this case)
         const token = thunkAPI.getState().auth.user.token
-        return await postService.upvotePost(postData, token)
+        return await postService.upvotePost(postId, userId, token)
     } catch (err) {
         // grab error message from anywhere/everywhere
         const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
@@ -84,11 +84,11 @@ export const upvotePost = createAsyncThunk('posts/upvote', async (postData, thun
 })
 
 // Downvote post
-export const downvotePost = createAsyncThunk('posts/downvote', async (postData, thunkAPI) => {
+export const downvotePost = createAsyncThunk('posts/downvote', async ({postId, userId}, thunkAPI) => {
     try {
         // use thunkAPI method .getState() to retrieve data from ANY state (auth state in this case)
         const token = thunkAPI.getState().auth.user.token
-        return await postService.downvotePost(postData, token)
+        return await postService.downvotePost(postId, userId, token)
     } catch (err) {
         // grab error message from anywhere/everywhere
         const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()

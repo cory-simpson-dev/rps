@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef  } from 'react'
 import {toast} from 'react-toastify'
 import Modal from 'react-modal'
 import { FaPlus } from 'react-icons/fa'
 import {useSelector, useDispatch} from 'react-redux'
-import {getPost, resetPost} from '../features/posts/postSlice'
+import {getPost, upvotePost, downvotePost, resetPost} from '../features/posts/postSlice'
 import { getComments, createComment, reset as commentsReset } from '../features/comments/commentSlice'
 import { useParams } from 'react-router-dom'
 import UserButton from '../components/UserButton'
 import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
 import CommentItem from '../components/CommentItem'
+import VotingButtons from '../components/VotingButtons'
 
 // react modal styles
 const customStyles = {
@@ -37,6 +38,12 @@ function Post() {
     // get comments from state (isLoading is renamed via colon)
     const {comments, isLoading: commentsIsLoading} = useSelector((state) => state.comments)
     const {user} = useSelector((state) => state.auth)
+    let userId
+    if (user === null) {
+      userId = null
+    } else {
+      userId = user._id
+    }
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -60,7 +67,7 @@ function Post() {
         // dispatch not included as dependency because it will produce never ending loop, so we prevent eslint error with next line
         // eslint-disable-next-line
     }, [isError, message, postId])
-
+ 
     // Create comment submit
     const onCommentSubmit = (e) => {
       e.preventDefault()
@@ -84,10 +91,12 @@ function Post() {
     <div className='ticket-page'>
       <header className="ticket-header">
         <BackButton url='/posts' />
-        <h3>
-            <span className='status status-new'>{post.upvotes}</span>
-            <span className='status status-closed'>{post.downvotes}</span>
-        </h3>
+        <VotingButtons 
+          item={post}
+          upvoteItem={upvotePost}
+          downvoteItem={downvotePost}
+          dispatchData={{postId, userId}}
+        />
         <h4>Written at {new Date(post.createdAt).toLocaleString('en-US')}</h4>
         <h2>{post.title}</h2>
         <UserButton url={`/user/${post.user}`} user={post.user}/>

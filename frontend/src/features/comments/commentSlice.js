@@ -95,8 +95,8 @@ export const commentSlice = createSlice({
                 // have action as parameter because we are getting data
                 state.isLoading = false
                 state.isSuccess = true
-                // part of redux tool kit - allows to push to state (normally immutable)
-                state.comments.push(action.payload)
+                // part of redux tool kit - allows to unshift to state (normally immutable)
+                state.comments.unshift(action.payload)
             })
             .addCase(createComment.rejected, (state, action) => {
                 state.isLoading = false
