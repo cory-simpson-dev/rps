@@ -13,6 +13,20 @@ const initialState = {
     message: ''
 }
 
+// Create new thread
+export const createThread = createAsyncThunk('messages/createThread', async (threadData, thunkAPI) => {
+    try {
+        // use thunkAPI method .getState() to retrieve data from ANY state (auth state in this case)
+        const token = thunkAPI.getState().auth.user.token
+        return await messageService.createThread(threadData, token)
+    } catch (err) {
+        // grab error message from anywhere/everywhere
+        const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+        // action payload if rejected
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 // Get all threads
 // to access thunkAPI, use _ to skip the argument
 export const getMessages = createAsyncThunk('messages/getAll', async (_, thunkAPI) => {
@@ -50,6 +64,20 @@ export const messageSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(createThread.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(createThread.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                // part of redux tool kit - allows to unshift to state (normally immutable)
+                state.threads.unshift(action.payload)
+            })
+            .addCase(createThread.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
             .addCase(getMessages.pending, (state) => {
                 state.isLoading = true
             })

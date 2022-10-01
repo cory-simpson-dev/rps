@@ -2,6 +2,20 @@ import axios from "axios"
 
 const API_URL = '/api/messaging/'
 
+// Create new thread
+const createThread = async (threadData, token) => {
+    const config = {
+        // token has to be in headers authorization field (same thing as postman, but through our app)
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.post(API_URL + 'new', threadData, config)
+
+    return response.data
+}
+
 // Get user threads
 const getMessages = async (token) => {
     const config = {
@@ -31,6 +45,7 @@ const getThread = async (threadId, token) => {
 }
 
 const messageService = {
+    createThread,
     getMessages,
     getThread,
 }

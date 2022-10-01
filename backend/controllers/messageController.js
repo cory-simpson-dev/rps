@@ -24,6 +24,22 @@ const getThreads = asyncHandler(async (req, res) => {
 // @route   POST /api/messaging/new
 // @access  Private
 const createThread = asyncHandler(async (req, res) => {
+    // catch if recipient is same as sender
+    if (req.user.id === req.body.recipient) {
+        res.status(400)
+        throw new Error('Invalid recipient')
+    }
+
+    // catch if thread with these users already exists
+    const existingThread = await Thread.find({
+        users: { $all: [req.user.id, req.body.recipient]}
+    })
+
+    if (existingThread.length > 0) {
+        res.status(400)
+        throw new Error('Thread with these users already exists')
+    }
+
     const thread = await Thread.create({
         users: [req.user.id, req.body.recipient],
         messages: [{

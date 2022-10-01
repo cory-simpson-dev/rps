@@ -3,9 +3,11 @@ import {useSelector, useDispatch} from 'react-redux'
 import {getMessages, reset as resetMessages} from '../features/messages/messageSlice'
 import Spinner from '../components/Spinner'
 import ThreadItem from '../components/ThreadItem'
+import NewMessage from '../components/NewMessage'
 
 function MessageBoard() {
     const {threads, thread, isLoading, isSuccess} = useSelector((state) => state.messages)
+    const [currentThread, setCurrentThread] = useState(thread)
 
     const dispatch = useDispatch()
 
@@ -23,6 +25,10 @@ function MessageBoard() {
         dispatch(getMessages())
     }, [dispatch])
 
+    useEffect(() => {
+        setCurrentThread(thread)
+    }, [thread])
+
     if (isLoading) {
         return <Spinner />
     }
@@ -30,15 +36,20 @@ function MessageBoard() {
     return (
         <div className="message-board-layout">
             <div>
-                {threads.map((thread) => {
-                    return <ThreadItem key={thread._id} thread={thread} />
-                })}
+                <button onClick={() => setCurrentThread({})} className="btn btn-block">New Thread</button>
+                {threads.length === 0 ? (
+                    <>
+                        <h4>Create Your First Thread</h4>
+                    </>
+                ) : (
+                    threads.map((thread) => {
+                        return <ThreadItem key={thread._id} thread={thread} />
+                    })
+                )}
             </div>
             <div>
-                {!thread._id ? (
-                  <>
-                    <h2>new message component</h2>
-                  </>
+                {!currentThread._id ? (
+                  <NewMessage />
                 ) : (
                   <>
                     <h2>thread body component</h2>
