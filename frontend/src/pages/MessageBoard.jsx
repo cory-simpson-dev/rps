@@ -35,6 +35,15 @@ function MessageBoard() {
                 })}
             </div>
             <div>
+                {!thread._id ? (
+                  <>
+                    <h2>new message component</h2>
+                  </>
+                ) : (
+                  <>
+                    <h2>thread body component</h2>
+                  </>
+                )}
             </div>
         </div>
     )

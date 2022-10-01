@@ -1,9 +1,11 @@
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import {getThread} from '../features/messages/messageSlice'
 
 function ThreadItem({thread}) {
   // get user from global state (auth)
   const {user} = useSelector((state) => state.auth)
+
+  const dispatch = useDispatch()
 
   // construct data for voting buttons component
   const threadId = thread._id
@@ -19,7 +21,7 @@ function ThreadItem({thread}) {
 
   return (
     // ticket className only kept for current styles
-    <div className='threadItem'>
+    <div onClick={() => dispatch(getThread(threadId))} className='threadItem'>
         <div>Messages with {recipientId}
         <hr />
         <div>Last message sent by {lastMessageSentBy === userId ? (
