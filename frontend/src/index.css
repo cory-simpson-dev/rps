@@ -235,6 +235,20 @@ h3 {
   text-align: center;
 }
 
+.thread-body-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr 1fr;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background: #f4f4f4;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: center;
+}
+
 .threadItem {
   display: grid;
   grid-template-columns: 1fr;

@@ -4,6 +4,8 @@ import {getMessages, reset as resetMessages} from '../features/messages/messageS
 import Spinner from '../components/Spinner'
 import ThreadItem from '../components/ThreadItem'
 import NewMessage from '../components/NewMessage'
+import Thread from '../components/Thread'
+import ThreadMessageForm from '../components/ThreadMessageForm'
 
 function MessageBoard() {
     const {threads, thread, isLoading, isSuccess} = useSelector((state) => state.messages)
@@ -51,9 +53,11 @@ function MessageBoard() {
                 {!currentThread._id ? (
                   <NewMessage />
                 ) : (
-                  <>
-                    <h2>thread body component</h2>
-                  </>
+                  <div className='thread-body-layout'>
+                  {/* pass in currentThread */}
+                    <Thread thread={currentThread}/>
+                    <ThreadMessageForm thread={currentThread}/>
+                  </div>
                 )}
             </div>
         </div>

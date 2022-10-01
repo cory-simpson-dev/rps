@@ -56,6 +56,20 @@ export const getThread = createAsyncThunk('messages/getThread', async (threadId,
     }
 })
 
+// Send message in existing thread
+export const sendMessage = createAsyncThunk('messages/sendMessage', async (threadData, thunkAPI) => {
+    try {
+        // use thunkAPI method .getState() to retrieve data from ANY state (auth state in this case)
+        const token = thunkAPI.getState().auth.user.token
+        return await messageService.sendMessage(threadData, token)
+    } catch (err) {
+        // grab error message from anywhere/everywhere
+        const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+        // action payload if rejected
+        return thunkAPI.rejectWithValue(message)
+    }
+})
+
 export const messageSlice = createSlice({
     name: 'message',
     initialState,
@@ -102,6 +116,17 @@ export const messageSlice = createSlice({
                 state.thread = action.payload
             })
             .addCase(getThread.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(sendMessage.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                // part of redux tool kit - allows to push to state (normally immutable)
+                state.thread.messages.push(action.payload.messages.slice(-1)[0])
+            })
+            .addCase(sendMessage.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload

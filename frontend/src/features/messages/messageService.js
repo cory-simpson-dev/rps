@@ -44,10 +44,27 @@ const getThread = async (threadId, token) => {
     return response.data
 }
 
+// Send message in existing thread
+const sendMessage = async (threadData, token) => {
+    const {threadId, text} = threadData
+    console.log(text);
+    const config = {
+        // token has to be in headers authorization field (same thing as postman, but through our app)
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.put(API_URL + 'threads/' + threadId, {text: text}, config)
+
+    return response.data
+}
+
 const messageService = {
     createThread,
     getMessages,
     getThread,
+    sendMessage
 }
 
 export default messageService

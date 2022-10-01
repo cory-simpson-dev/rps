@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler')
+const { restart } = require('nodemon')
 
 const Thread = require('../models/threadModel')
 
@@ -81,7 +82,14 @@ const addMessage = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('Thread not found')
     }
-  
+    
+    const text = req.body.text
+
+    if(!text) {
+        res.status(400)
+        throw new Error('Please add text')
+    }
+
     const updatedThread = await Thread.findByIdAndUpdate(req.params.threadId, 
         {
             $push: {'messages': {
