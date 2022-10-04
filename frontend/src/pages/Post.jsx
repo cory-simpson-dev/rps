@@ -1,12 +1,10 @@
-import { useEffect, useState, useRef  } from 'react'
+import { useEffect, useState } from 'react'
 import {toast} from 'react-toastify'
 import Modal from 'react-modal'
-import { FaPlus } from 'react-icons/fa'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPost, upvotePost, downvotePost, resetPost} from '../features/posts/postSlice'
 import { getComments, createComment, reset as commentsReset } from '../features/comments/commentSlice'
-import { useParams } from 'react-router-dom'
-import UserButton from '../components/UserButton'
+import { useParams, Link } from 'react-router-dom'
 import Spinner from '../components/Spinner'
 import CommentItem from '../components/CommentItem'
 import VotingButtons from '../components/VotingButtons'
@@ -86,51 +84,62 @@ function Post() {
         return <h3>Something Went Wrong</h3>
     }
 
+    // calculate time since post
+    const currentTime = new Date()
+    const postedAt = new Date(post.createdAt)
+    const minutesSince = Math.floor((currentTime - postedAt)/60000)
+  
   return (
-    <div className='ticket-page'>
-      <header className="ticket-header">
-        <VotingButtons 
-          item={post}
-          upvoteItem={upvotePost}
-          downvoteItem={downvotePost}
-          dispatchData={{postId, userId}}
-        />
-        <h4>Written at {new Date(post.createdAt).toLocaleString('en-US')}</h4>
-        <h2>{post.title}</h2>
-        <UserButton url={`/user/${post.user}`} user={post.user}/>
-        {/* horizontal rule = hr */}
-        <hr />
-        <div className="post-desc">
-            <p>{post.body}</p>
+    <>
+      <div className="container mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-cols-[60px_minmax(250px,_1fr)]">
+        <div className="grid grid-cols-1 place-content-center">
+          <VotingButtons 
+            item={post}
+            upvoteItem={upvotePost}
+            downvoteItem={downvotePost}
+            dispatchData={{postId, userId}}
+          />
         </div>
+        <div className="grid grid-rows-[30px_50px_1fr_30px]">
+          <p className='truncate text-sm'>Posted by <Link to={`/user/${post.user}`} className='text-primary hover:text-purple-600'>{post.user}</Link> {minutesSince} minutes ago</p>
+          <h4 className='truncate text-lg font-semibold'>{post.title}</h4>
+          <p className='truncate'>{post.body}</p>
+          <p className='truncate text-sm text-gray-500'>{comments.length} comments</p>
+        </div>
+      </div>
+      <header className="ticket-header">
         <h2>Comments</h2>
       </header>
 
       {/* if user is logged in */}
       {user ? (
-        <button onClick={openModal} className='btn'><FaPlus /> Add Comment</button>
+        <button onClick={openModal} className='mb-4 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700'>Add Comment</button>
       ) : (
-        <button className='btn'>Sign in to Comment</button>
+        <button className='mb-4 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700'>Sign in to Comment</button>
       )}
 
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles} contentLabel='Add Comment'>
-        <h2>Add Comment</h2>
-        <button className="btn-close" onClick={closeModal}>X</button>
-        <form onSubmit={onCommentSubmit}>
-          <div className="form-group">
-            <textarea 
-              name="commentText" 
-              id="commentText" 
-              className='form-control' 
-              placeholder='Comment text' 
-              value={commentText} 
-              onChange={(e) => setCommentText(e.target.value)}
-            ></textarea>
+        <div className='grid grid-rows-[40px_1fr]'>
+          <div className='grid grid-cols-[1fr_30px]'>
+            <h2>Add Comment</h2>
+            <span className="text-center mb-auto items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-2 py-1 text-base font-medium text-white shadow-sm hover:bg-indigo-700" onClick={closeModal}>X</span>
           </div>
-          <div className="form-group">
-            <button className="btn" type='submit'>Submit</button>
-          </div>
-        </form>
+          <form onSubmit={onCommentSubmit}>
+            <div className="form-group">
+              <textarea 
+                name="commentText" 
+                id="commentText" 
+                className='form-control' 
+                placeholder='Comment text' 
+                value={commentText} 
+                onChange={(e) => setCommentText(e.target.value)}
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700" type='submit'>Submit</button>
+            </div>
+          </form>
+        </div>        
       </Modal>
 
       { comments.length > 0 ? 
@@ -139,9 +148,7 @@ function Post() {
       )) :
         <h4>Be the first to comment</h4>
       }
-      
-
-    </div>
+    </>
   )
 }
 

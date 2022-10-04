@@ -1,7 +1,6 @@
-import { useState } from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 import { upvoteComment, downvoteComment } from '../features/comments/commentSlice'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import VotingButtons from './VotingButtons'
 
 function CommentItem({comment}) {
@@ -19,24 +18,26 @@ function CommentItem({comment}) {
     userId = user._id
   }
 
+  const currentTime = new Date()
+  const postedAt = new Date(comment.createdAt)
+  const minutesSince = Math.floor((currentTime - postedAt)/60000)
+
   return (
-    // className note for current styles & dynamic styling for staff vs not staff
-    <div className='note' style={{
-        backgroundColor: comment.isStaff ? 'rgba(0,0,0,0.7)' : '#fff',
-        textColor: comment.isStaff ? '#fff' : '#000'
-    }}>
-      <h4>Comment from {comment.isStaff ? <span>Staff</span> : <span>{comment.user}</span>}</h4>
-      <p>{comment.text}</p>
-      <div className="note-date">
-        {new Date(comment.createdAt).toLocaleString('en-US')}
-      </div>
-      <VotingButtons 
-        item={comment}
-        upvoteItem={upvoteComment}
-        downvoteItem={downvoteComment}
-        dispatchData={{commentId, postId, userId}}
-      />
+    <div className="container mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-cols-[60px_minmax(250px,_1fr)]">
+        <div className="grid grid-cols-1 place-content-center">
+          <VotingButtons 
+            item={comment}
+            upvoteItem={upvoteComment}
+            downvoteItem={downvoteComment}
+            dispatchData={{commentId, postId, userId}}
+          />
+        </div>
+        <div className="grid grid-rows-[30px_minmax(1fr,_200px)]">
+          <p className='truncate text-sm'><Link to={`/user/${comment.user}`} className='text-primary hover:text-purple-600'>{comment.user} </Link> {minutesSince} minutes ago</p>
+          <p>{comment.text}</p>
+        </div>
     </div>
+
   )
 }
 
