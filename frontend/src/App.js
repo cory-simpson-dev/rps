@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <Router>
-        <div className="container">
+        <div className="container h-full">
           <Header />
           {/* can only ever have route components */}
           <Routes>
