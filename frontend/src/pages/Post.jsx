@@ -7,7 +7,6 @@ import {getPost, upvotePost, downvotePost, resetPost} from '../features/posts/po
 import { getComments, createComment, reset as commentsReset } from '../features/comments/commentSlice'
 import { useParams } from 'react-router-dom'
 import UserButton from '../components/UserButton'
-import BackButton from '../components/BackButton'
 import Spinner from '../components/Spinner'
 import CommentItem from '../components/CommentItem'
 import VotingButtons from '../components/VotingButtons'
@@ -90,7 +89,6 @@ function Post() {
   return (
     <div className='ticket-page'>
       <header className="ticket-header">
-        <BackButton url='/posts' />
         <VotingButtons 
           item={post}
           upvoteItem={upvotePost}

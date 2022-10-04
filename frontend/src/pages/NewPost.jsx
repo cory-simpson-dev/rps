@@ -5,7 +5,6 @@ import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {createPost, resetPost} from '../features/posts/postSlice'
 import Spinner from '../components/Spinner'
-import BackButton from '../components/BackButton'
 
 function NewPost() {
     // get user from global state (auth)
@@ -48,7 +47,6 @@ function NewPost() {
 
   return (
     <>
-        <BackButton url='/' />
         <section className="heading">
             <h1>Create New Post</h1>
             <p>Please fill out the form below</p>

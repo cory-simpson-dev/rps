@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { FaHeartBroken, FaHeart } from 'react-icons/fa'
 
 // item = post/comment
 function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
@@ -11,6 +12,9 @@ function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
     const [downvotes, setDownvotes] = useState(0)
     const [upvotedBy, setUpvotedBy] = useState([])
     const [downvotedBy, setDownvotedBy] = useState([])
+    
+    const upvoteClassesRef = useRef(`mx-auto my-auto text-slate-300`)
+    const downvoteClassesRef = useRef(`mx-auto my-auto text-slate-300`)
 
     const dispatch = useDispatch()
 
@@ -23,6 +27,15 @@ function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
       }
     }, [item])
 
+    useEffect(() => {
+      if (upvotedBy.indexOf(user._id) > -1) {
+        upvoteClassesRef.current = `mx-auto my-auto text-primary`
+      }
+      if (downvotedBy.indexOf(user._id) > -1) {
+        downvoteClassesRef.current = `mx-auto my-auto text-black`
+      }
+    })
+
     const handleUpvote = () => {
     // uses itemSlice & itemService
         dispatch(upvoteItem(dispatchData))
@@ -31,6 +44,7 @@ function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
         if (upvotedBy.indexOf(user._id) > -1) {
             setUpvotedBy(() => upvotedBy.filter(id => id !== user._id))
             setUpvotes(upvotes - 1)
+            upvoteClassesRef.current = `mx-auto my-auto text-slate-300`
         // if item previously downvoted by user, remove from down votes && add to upvotes
         } else if (downvotedBy.indexOf(user._id) > -1){
             let newUpvotedByArr = upvotedBy.concat(user._id)
@@ -38,11 +52,14 @@ function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
             setDownvotes(downvotes - 1)
             setUpvotedBy(newUpvotedByArr)
             setUpvotes(upvotes + 1)
+            upvoteClassesRef.current = `mx-auto my-auto text-primary`
+            downvoteClassesRef.current = `mx-auto my-auto text-slate-300`
         // otherwise, add user to upvotedBy
         } else {
             let newUpvotedByArr = upvotedBy.concat(user._id)
             setUpvotes(upvotes + 1)
             setUpvotedBy(newUpvotedByArr)
+            upvoteClassesRef.current = `mx-auto my-auto text-primary`
         }
     }
 
@@ -54,6 +71,7 @@ function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
     if (downvotedBy.indexOf(user._id) > -1) {
       setDownvotedBy(() => downvotedBy.filter(id => id !== user._id))
       setDownvotes(downvotes - 1)
+      downvoteClassesRef.current = `mx-auto my-auto text-slate-300`
     // if item previously upvoted by user, remove from upvotes && add to downvotes
     } else if (upvotedBy.indexOf(user._id) > -1){
       let newDownvotedByArr = downvotedBy.concat(user._id)
@@ -61,23 +79,29 @@ function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
       setUpvotes(upvotes - 1)
       setDownvotedBy(newDownvotedByArr)
       setDownvotes(downvotes + 1)
+      upvoteClassesRef.current = `mx-auto my-auto text-slate-300`
+      downvoteClassesRef.current = `mx-auto my-auto text-black`
     // otherwise, add user to downvotedBy
     } else {
       let newDownvotedByArr = downvotedBy.concat(user._id)
       setDownvotes(downvotes + 1)
       setDownvotedBy(newDownvotedByArr)
+      downvoteClassesRef.current = `mx-auto my-auto text-black`
     }
   }
 
   return (
-    <div>
-        <div className='status status-new' onClick={handleUpvote}>
-          {upvotes}
+    <div className='grid grid-rows-3'>
+        <div className='flex' onClick={handleUpvote}>
+          <FaHeart className={upvoteClassesRef.current}/>
         </div>
-        <div className='status status-closed' onClick={handleDownvote}>
-          {downvotes}
+        <div className='text-center'>
+          {upvotes - downvotes}
         </div>
-      </div>
+        <div className='flex' onClick={handleDownvote}>
+          <FaHeartBroken className={downvoteClassesRef.current} />
+        </div>
+    </div>
   )
 }
 

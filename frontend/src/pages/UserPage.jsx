@@ -68,13 +68,13 @@ function UserPage() {
         <h1>{userId.slice(0,7)} Posts</h1>
         {/* ticket classNames only kept for current styles */}
         <div className="tickets">
-            <SearchBar searchState={search} searchStateSet={setSearch}/>
-            <Filter filterState={selectedFilter} filterStateSet={setSelectedFilter} providedFilterOptions={filterOptions}/>
-            <div className="ticket-headings">
-                <div>title</div>
-                <div>body</div>
-                <div>upvotes&downvotes</div>
-                <div>links</div>
+            <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-2">
+                    <SearchBar searchState={search} searchStateSet={setSearch}/>
+                </div>
+                <div className="col-span-1">
+                    <Filter filterState={selectedFilter} filterStateSet={setSelectedFilter} providedFilterOptions={filterOptions}/>
+                </div>
             </div>
             {currentPosts.sort((a,b) => {
                 if (selectedFilter === 'mostUpvotes') {

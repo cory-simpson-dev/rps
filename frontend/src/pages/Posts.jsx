@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPosts, resetPost} from '../features/posts/postSlice'
 import Spinner from '../components/Spinner'
-import BackButton from '../components/BackButton'
 import PostItem from '../components/PostItem'
 import SearchBar from '../components/SearchBar'
 import Filter from '../components/Filter'
@@ -54,17 +53,15 @@ function Posts() {
 
   return (
     <>
-        <BackButton url='/' />
-        <h1>All Posts</h1>
         {/* ticket classNames only kept for current styles */}
         <div className="tickets">
-            <SearchBar searchState={search} searchStateSet={setSearch}/>
-            <Filter filterState={selectedFilter} filterStateSet={setSelectedFilter} providedFilterOptions={filterOptions}/>
-            <div className="ticket-headings">
-                <div>title</div>
-                <div>body</div>
-                <div>upvotes&downvotes</div>
-                <div>links</div>
+            <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-2">
+                    <SearchBar searchState={search} searchStateSet={setSearch}/>
+                </div>
+                <div className="col-span-1">
+                    <Filter filterState={selectedFilter} filterStateSet={setSelectedFilter} providedFilterOptions={filterOptions}/>
+                </div>
             </div>
             {currentPosts.sort((a,b) => {
                 if (selectedFilter === 'mostUpvotes') {
