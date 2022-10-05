@@ -1,5 +1,4 @@
 const asyncHandler = require('express-async-handler')
-const { restart } = require('nodemon')
 
 const Thread = require('../models/threadModel')
 

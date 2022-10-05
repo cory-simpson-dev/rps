@@ -31,8 +31,8 @@ if(process.env.NODE_ENV === 'production') {
         res.sendFile(path.join(__dirname, '../frontend/build/index.html'))
     })
 } else {
-    app.get('/', (req, res) => {
-        res.status(200).json({message: 'Welcome to the Real PLUR Life API'})
+    app.get('/', (_, res) => {
+        res.status(200).json({ message: 'Welcome to the Real PLUR Life API' })
     })
 }
 
