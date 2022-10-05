@@ -38,7 +38,7 @@ function MessageBoard() {
     return (
         <div className="message-board-layout">
             <div>
-                <button onClick={() => setCurrentThread({})} className="btn btn-block">New Thread</button>
+                <button onClick={() => setCurrentThread({})} className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 btn-block">New Thread</button>
                 {threads.length === 0 ? (
                     <>
                         <h4>Create Your First Thread</h4>
@@ -53,7 +53,7 @@ function MessageBoard() {
                 {!currentThread._id ? (
                   <NewMessage />
                 ) : (
-                  <div className='thread-body-layout'>
+                  <div className='border rounded-md'>
                   {/* pass in currentThread */}
                     <Thread thread={currentThread}/>
                     <ThreadMessageForm thread={currentThread}/>

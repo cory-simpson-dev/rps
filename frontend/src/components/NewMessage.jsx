@@ -51,7 +51,7 @@ function NewMessage() {
                         <textarea name="text" id="text" className='form-control' placeholder='Text' value={text} onChange={(e) => setText(e.target.value)}></textarea>
                     </div>
                     <div className="form-group">
-                        <button className="btn btn-block">Send</button>
+                        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 btn-block">Send</button>
                     </div>
                 </form>
             </section>

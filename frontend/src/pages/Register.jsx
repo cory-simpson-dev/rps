@@ -8,6 +8,9 @@ import {register, reset} from '../features/auth/authSlice'
 import Spinner from '../components/Spinner'
 // styles
 import { LockClosedIcon } from '@heroicons/react/20/solid'
+import {
+  TbHeartHandshake
+} from 'react-icons/tb'
 
 function Register() {
     // instead of separate states for every field, use formData
@@ -73,11 +76,12 @@ function Register() {
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <div>
-            <img
+            {/* <img
               className="mx-auto h-12 w-auto"
               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
               alt="Your Company"
-            />
+            /> */}
+            <TbHeartHandshake className='mx-auto h-12 w-auto text-indigo-600 hover:text-indigo-700'/>
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
               Welcome to the PLUR Life
             </h2>

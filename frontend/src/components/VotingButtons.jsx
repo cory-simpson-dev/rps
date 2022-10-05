@@ -28,11 +28,13 @@ function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
     }, [item])
 
     useEffect(() => {
-      if (upvotedBy.indexOf(user._id) > -1) {
-        upvoteClassesRef.current = `mx-auto my-auto text-primary`
-      }
-      if (downvotedBy.indexOf(user._id) > -1) {
-        downvoteClassesRef.current = `mx-auto my-auto text-black`
+      if (user) {
+        if (upvotedBy.indexOf(user._id) > -1) {
+          upvoteClassesRef.current = `mx-auto my-auto text-primary`
+        }
+        if (downvotedBy.indexOf(user._id) > -1) {
+          downvoteClassesRef.current = `mx-auto my-auto text-black`
+        }
       }
     })
 

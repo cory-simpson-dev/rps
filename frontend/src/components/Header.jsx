@@ -8,6 +8,9 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
+import {
+  TbHeartHandshake
+} from 'react-icons/tb'
 
 function Header() {
   const navigate = useNavigate()
@@ -36,15 +39,16 @@ function Header() {
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <Link to='/'>
               <span className="sr-only">Real PLUR Life</span>
-              <img
+              <TbHeartHandshake className="ml-4 h-8 w-auto sm:h-10 text-indigo-600 hover:text-indigo-700"/>
+              {/* <img
                 className="h-8 w-auto sm:h-10"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
-              />
+              /> */}
             </Link>
           </div>
           <div className="-my-2 -mr-2 md:hidden">
-            <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+            <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 hover:cursor-pointer">
               <span className="sr-only">Open menu</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </Popover.Button>
@@ -121,20 +125,20 @@ function Header() {
           <div className="hidden items-center justify-end md:flex md:flex-1 lg:w-0">
             { user ? (
                 <>
-                  <span className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900 px-6" onClick={goNewPost}>New Post</span>
-                  <span className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900" onClick={goMessages}>Messages</span>
-                  <span className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700" onClick={onLogout}>Sign Out</span>
+                  <span className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900 px-6 hover:cursor-pointer" onClick={goNewPost}>New Post</span>
+                  <span className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900 hover:cursor-pointer" onClick={goMessages}>Messages</span>
+                  <span className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 hover:cursor-pointer" onClick={onLogout}>Sign Out</span>
                 </>
               ) : (
                 <>
                   <Link to='/login'>
-                    <span href="#" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+                    <span href="#" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900 hover:cursor-pointer">
                       Sign in
                     </span>
                   </Link>
                   <Link to='/register'>
                     <span
-                      className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                      className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 hover:cursor-pointer"
                     >
                       Sign up
                     </span>

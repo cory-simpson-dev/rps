@@ -13,8 +13,6 @@ function NewPost() {
     const {isLoading, isError, isSuccess, message} = useSelector((state) => state.posts)
 
     // local state
-    const [name] = useState(user.name)
-    const [email] = useState(user.email)
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
 
@@ -48,18 +46,9 @@ function NewPost() {
   return (
     <>
         <section className="heading">
-            <h1>Create New Post</h1>
-            <p>Please fill out the form below</p>
+            <h1 className='text-center'>Create New Post</h1>
         </section>
         <section className="form">
-            <div className="form-group">
-                <label htmlFor="name">User Name</label>
-                <input type="text" className="form-control" value={name} disabled/>
-            </div>
-            <div className="form-group">
-                <label htmlFor="email">User Email</label>
-                <input type="text" className="form-control" value={email} disabled/>
-            </div>
             <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <label htmlFor="title">Title</label>
@@ -67,10 +56,10 @@ function NewPost() {
                 </div>
                 <div className="form-group">
                     <label htmlFor="body">Body</label>
-                    <textarea name="body" id="body" className='form-control' placeholder='Body' value={body} onChange={(e) => setBody(e.target.value)}></textarea>
+                    <textarea name="body" id="body" className='form-control' value={body} onChange={(e) => setBody(e.target.value)}></textarea>
                 </div>
                 <div className="form-group">
-                    <button className="btn btn-block">Submit</button>
+                    <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 btn-block">Submit</button>
                 </div>
             </form>
         </section>

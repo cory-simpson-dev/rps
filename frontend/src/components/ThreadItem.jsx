@@ -21,19 +21,20 @@ function ThreadItem({thread}) {
 
   return (
     // ticket className only kept for current styles
-    <div onClick={() => dispatch(getThread(threadId))} className='threadItem'>
-        <div>Messages with {recipientId}
-        <hr />
-        <div>Last message sent by {lastMessageSentBy === userId ? (
-          <span>
-            you
-          </span>
-        ) : (
-          <span>
-            {lastMessageSentBy}
-          </span>
-        )}</div>
-        </div>
+    <div onClick={() => dispatch(getThread(threadId))} className="hover:cursor-pointer container mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-rows-[60px_60px)]">
+      <div>
+        {recipientId}
+      </div>
+      <div className='text-xs'>Last message sent by {lastMessageSentBy === userId ? (
+        <span>
+          you
+        </span>
+      ) : (
+        <span>
+          {lastMessageSentBy}
+        </span>
+      )}
+      </div>
     </div>
   )
 }
