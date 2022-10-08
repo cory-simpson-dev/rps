@@ -8,6 +8,7 @@ import { useParams, Link } from 'react-router-dom'
 import Spinner from '../components/Spinner'
 import CommentItem from '../components/CommentItem'
 import VotingButtons from '../components/VotingButtons'
+import TimeSince from '../components/TimeSince'
 
 // react modal styles
 const customStyles = {
@@ -83,11 +84,6 @@ function Post() {
     if(isError) {
         return <h3>Something Went Wrong</h3>
     }
-
-    // calculate time since post
-    const currentTime = new Date()
-    const postedAt = new Date(post.createdAt)
-    const minutesSince = Math.floor((currentTime - postedAt)/60000)
   
   return (
     <>
@@ -101,7 +97,7 @@ function Post() {
           />
         </div>
         <div className="grid grid-rows-[30px_50px_1fr_30px]">
-          <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> {minutesSince} minutes ago</p>
+          <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> <TimeSince item={post} /></p>
           <h4 className='truncate text-lg font-semibold'>{post.title}</h4>
           <p className='truncate'>{post.body}</p>
           <p className='truncate text-sm text-gray-500'>{comments.length} comments</p>
