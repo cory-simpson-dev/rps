@@ -207,22 +207,22 @@ function Header() {
                           What is PLUR?
                       </span>
                     </Link>
-                    <span className="text-base font-medium text-gray-900 hover:text-gray-700" onClick={goNewPost}>
+                    <span className="text-base font-medium text-gray-900 hover:text-gray-700 hover:cursor-pointer" onClick={goNewPost}>
                           Create a New Post
                     </span>
-                    <span className="text-base font-medium text-gray-900 hover:text-gray-700" onClick={goMessages}>
+                    <span className="text-base font-medium text-gray-900 hover:text-gray-700 hover:cursor-pointer" onClick={goMessages}>
                           Messages
                     </span>
                   </>
                 ) : (
                   <>
                     <Link to='/posts'>
-                      <span className="text-base font-medium text-gray-900 hover:text-gray-700">
+                      <span className="text-base font-medium text-gray-900 hover:text-gray-700 hover:cursor-pointer">
                         Lurk
                       </span>
                     </Link>
                     <Link to='/'>
-                      <span className="text-base font-medium text-gray-900 hover:text-gray-700">
+                      <span className="text-base font-medium text-gray-900 hover:text-gray-700 hover:cursor-pointer">
                           What is PLUR?
                       </span>
                     </Link>
@@ -233,7 +233,7 @@ function Header() {
               <div>
                 { user ? (
                     <>
-                      <span className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700" onClick={onLogout}>Sign Out</span>
+                      <span className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 hover:cursor-pointer" onClick={onLogout}>Sign Out</span>
                     </>
                   ) : (
                     <>

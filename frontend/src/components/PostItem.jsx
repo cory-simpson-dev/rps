@@ -28,11 +28,10 @@ function PostItem({post}) {
           />
         </div>
       <Link to={`/post/${post._id}`}>
-        <div className="grid grid-rows-[30px_50px_minmax(1fr,_100px)_30px]">
+        <div className="grid grid-rows-[30px_50px_minmax(1fr,_100px)]">
           <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> <TimeSince item={post} /></p>
           <h4 className='truncate text-lg font-semibold'>{post.title}</h4>
           <p className='truncate'>{post.body}</p>
-          <p className='truncate text-sm text-gray-500'>42 comments</p>
         </div>
       </Link>
       </div>

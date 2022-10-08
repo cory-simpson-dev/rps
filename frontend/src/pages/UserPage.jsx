@@ -78,9 +78,13 @@ function UserPage() {
             </div>
             {currentPosts.sort((a,b) => {
                 if (selectedFilter === 'mostUpvotes') {
-                    return b.upvotedBy.length - a.upvotedBy.length
+                    let aCurrentVotes = a.upvotedBy.length - a.downvotedBy.length
+                    let bCurrentVotes = b.upvotedBy.length - b.downvotedBy.length
+                    return bCurrentVotes - aCurrentVotes
                 } else if (selectedFilter === 'mostDownvotes') {
-                    return b.downvotedBy.length - a.downvotedBy.length
+                    let aCurrentVotes = a.downvotedBy.length - a.upvotedBy.length
+                    let bCurrentVotes = b.downvotedBy.length - b.upvotedBy.length
+                    return bCurrentVotes - aCurrentVotes
                 } else if (selectedFilter === 'dateNewest') {
                     if (a.createdAt < b.createdAt) {
                         return 1;

@@ -94,13 +94,13 @@ function VotingButtons({item, upvoteItem, downvoteItem, dispatchData}) {
 
   return (
     <div className='grid grid-rows-3'>
-        <div className='flex' onClick={handleUpvote}>
+        <div className='flex hover:cursor-pointer' onClick={handleUpvote}>
           <FaHeart className={upvoteClassesRef.current}/>
         </div>
         <div className='text-center'>
           {upvotes - downvotes}
         </div>
-        <div className='flex' onClick={handleDownvote}>
+        <div className='flex hover:cursor-pointer' onClick={handleDownvote}>
           <FaHeartBroken className={downvoteClassesRef.current} />
         </div>
     </div>
