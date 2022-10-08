@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 
 const Thread = require('../models/threadModel')
+const User = require('../models/userModel')
 
 // NOTE: no need to get the user, we already have them on req object from
 // protect middleware. The protect middleware already checks for valid user.
@@ -9,8 +10,10 @@ const Thread = require('../models/threadModel')
 // @route   GET /api/messaging/
 // @access  Private
 const getThreads = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.id)
+
     const threads = await Thread.find({
-        users: req.user.id
+        users: user.username
     }).sort({'updatedAt': -1})
 
     if (!threads) {
@@ -24,15 +27,26 @@ const getThreads = asyncHandler(async (req, res) => {
 // @route   POST /api/messaging/new
 // @access  Private
 const createThread = asyncHandler(async (req, res) => {
+    const recipientUsername = req.body.recipient
+    // find recipient
+    const recipient = await User.findOne({username: recipientUsername})
+    // find user
+    const user = await User.findById(req.user.id)
+
+    if (!recipient) {
+        res.status(400)
+        throw new Error('Recipient not found')
+    }
+
     // catch if recipient is same as sender
-    if (req.user.id === req.body.recipient) {
+    if (user.username === recipient.username) {
         res.status(400)
         throw new Error('Invalid recipient')
     }
 
     // catch if thread with these users already exists
     const existingThread = await Thread.find({
-        users: { $all: [req.user.id, req.body.recipient]}
+        users: { $all: [recipient.username, user.username]}
     })
 
     if (existingThread.length > 0) {
@@ -41,9 +55,9 @@ const createThread = asyncHandler(async (req, res) => {
     }
 
     const thread = await Thread.create({
-        users: [req.user.id, req.body.recipient],
+        users: [user.username, recipient.username],
         messages: [{
-            sender: req.user.id,
+            sender: user.username,
             text: req.body.text,
             sentAt: new Date(),
         }]
@@ -57,8 +71,9 @@ const createThread = asyncHandler(async (req, res) => {
 // @access  Private
 const getThread = asyncHandler(async (req, res) => {
     const thread = await Thread.findById(req.params.threadId)
-    
-    if(!thread.users.includes(req.user.id)) {
+    const user = await User.findById(req.user.id)
+        
+    if(!thread.users.includes(user.username)) {
         res.status(401)
         throw new Error('Not Authorized')
     }
@@ -76,7 +91,8 @@ const getThread = asyncHandler(async (req, res) => {
 // @access  Private
 const addMessage = asyncHandler(async (req, res) => {
     const thread = await Thread.findById(req.params.threadId)
-  
+    const user = await User.findById(req.user.id)
+
     if(!thread) {
         res.status(404)
         throw new Error('Thread not found')
@@ -92,7 +108,7 @@ const addMessage = asyncHandler(async (req, res) => {
     const updatedThread = await Thread.findByIdAndUpdate(req.params.threadId, 
         {
             $push: {'messages': {
-                sender: req.user.id,
+                sender: user.username,
                 text: req.body.text,
                 recipientReadStatus: false,
                 sentAt: new Date(),

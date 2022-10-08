@@ -33,7 +33,7 @@ function CommentItem({comment}) {
           />
         </div>
         <div className="grid grid-rows-[30px_minmax(1fr,_200px)]">
-          <p className='truncate text-sm'><Link to={`/user/${comment.user}`} className='text-primary hover:text-purple-600'>{comment.user} </Link> {minutesSince} minutes ago</p>
+          <p className='truncate text-sm'><Link to={`/user/${comment.username}`} className='text-primary hover:text-purple-600'>{comment.username} </Link> {minutesSince} minutes ago</p>
           <p>{comment.text}</p>
         </div>
     </div>

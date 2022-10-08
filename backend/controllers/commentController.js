@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler')
 
 const Post = require('../models/postModel')
 const Comment = require('../models/commentModel')
+const User = require('../models/userModel')
 
 // NOTE: no need to get the user, we already have them on req object from
 // protect middleware. The protect middleware already checks for valid user.
@@ -25,12 +26,18 @@ const getComments = asyncHandler(async (req, res) => {
 // @route   POST /api/posts/:postId/comments
 // @access  Private
 const addComment = asyncHandler(async (req, res) => {
-    const post = await Post.findById(req.params.postId)
-   
+    const user = await User.findById(req.user.id)
+
+    if(!user) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
     const comment = await Comment.create({
       text: req.body.text,
       post: req.params.postId,
       user: req.user.id,
+      username: user.username,
     })
   
     res.status(200).json(comment)

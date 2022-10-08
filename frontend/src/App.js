@@ -36,7 +36,7 @@ function App() {
                     <Route path='/messaging' element={<PrivateRoute />}>
                       <Route path='/messaging' element={<MessageBoard />} />
                     </Route>
-                    <Route path='/user/:userId' element={<UserPage />} />
+                    <Route path='/user/:username' element={<UserPage />} />
                   </Routes>
                 </main>
               </div>

@@ -26,7 +26,7 @@ function NewPost() {
 
         if(isSuccess) {
             dispatch(resetPost())
-            navigate(`/user/${user._id}`)
+            navigate(`/user/${user.username}`)
         }
 
         dispatch(resetPost())

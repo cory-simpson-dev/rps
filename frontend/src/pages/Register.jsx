@@ -15,14 +15,14 @@ import {
 function Register() {
     // instead of separate states for every field, use formData
     const [formData, setFormData] = useState({
-        name: '',
+        username: '',
         email: '',
         password: '',
         password2: '',
     })
 
     // destructure formData
-    const {name, email, password, password2} = formData
+    const {username, email, password, password2} = formData
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -57,7 +57,7 @@ function Register() {
             toast.error('Passwords do not match')
         } else {
             const userData = {
-                name,
+                username,
                 email,
                 password
             }
@@ -103,9 +103,9 @@ function Register() {
                 </label>
                 <input
                     onChange={onChange}
-                    value={name} 
+                    value={username} 
                     id="username"
-                    name="name"
+                    name="username"
                     type="text"
                     required
                     className="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"

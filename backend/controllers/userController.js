@@ -9,18 +9,25 @@ const Post = require('../models/postModel')
 // @route   /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-    const {name, email, password} = req.body
+    const {username, email, password} = req.body
 
     // Validation
-    if(!name || !email || !password) {
+    if(!username || !email || !password) {
         res.status(400)
         throw new Error('Please include all fields')
     }
 
     // Find if user already exists
-    const userExists = await User.findOne({email})
+    const usernameExists = await User.findOne({username})
+    
+    if(usernameExists) {
+        res.status(400)
+        throw new Error('That username is already taken')
+    }
 
-    if(userExists) {
+    const userEmailExists = await User.findOne({email})
+
+    if(userEmailExists) {
         res.status(400)
         throw new Error('User already exists')
     }
@@ -31,7 +38,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // Create user
     const user = await User.create({
-        name,
+        username,
         email,
         password: hashedPassword
     })
@@ -40,7 +47,7 @@ const registerUser = asyncHandler(async (req, res) => {
     if(user) {
         res.status(201).json({
             _id: user._id,
-            name: user.name,
+            username: user.username,
             email: user.email,
             token: generateToken(user._id)
         })
@@ -62,7 +69,7 @@ const loginUser = asyncHandler(async (req, res) => {
     if(user && (await bcrypt.compare(password, user.password))) {
         res.status(200).json({
             _id: user._id,
-            name: user.name,
+            username: user.username,
             email: user.email,
             token: generateToken(user._id)
         })
@@ -74,10 +81,10 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 // @desc    Get current user
-// @route   /api/users/:id
+// @route   /api/users/:username
 // @access  Public
 const getUser = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id)
+    const user = await User.findOne({username: req.params.username})
 
     if(!user) {
         res.status(404)

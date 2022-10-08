@@ -32,9 +32,9 @@ const getPost = async (postId, token) => {
 }
 
 // Get user-specific posts
-const getUserPosts = async (userId) => {
+const getUserPosts = async (username) => {
     // userId comes from postSlice
-    const response = await axios.get('/api/users/' + userId)
+    const response = await axios.get('/api/users/' + username)
 
     return response.data
 }

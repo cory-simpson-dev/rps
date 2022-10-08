@@ -58,9 +58,9 @@ export const getPost = createAsyncThunk('posts/get', async (postId, thunkAPI) =>
 })
 
 // Get user-specific posts
-export const getUserPosts = createAsyncThunk('posts/getUserPosts', async (userId, thunkAPI) => {
+export const getUserPosts = createAsyncThunk('posts/getUserPosts', async (username, thunkAPI) => {
     try {
-        return await postService.getUserPosts(userId)
+        return await postService.getUserPosts(username)
     } catch (err) {
         // grab error message from anywhere/everywhere
         const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()

@@ -101,7 +101,7 @@ function Post() {
           />
         </div>
         <div className="grid grid-rows-[30px_50px_1fr_30px]">
-          <p className='truncate text-sm'>Posted by <Link to={`/user/${post.user}`} className='text-primary hover:text-purple-600'>{post.user}</Link> {minutesSince} minutes ago</p>
+          <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> {minutesSince} minutes ago</p>
           <h4 className='truncate text-lg font-semibold'>{post.title}</h4>
           <p className='truncate'>{post.body}</p>
           <p className='truncate text-sm text-gray-500'>{comments.length} comments</p>

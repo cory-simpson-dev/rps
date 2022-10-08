@@ -55,7 +55,7 @@ function MessageBoard() {
                 ) : (
                   <div className='border rounded-md'>
                   {/* pass in currentThread */}
-                    <Thread thread={currentThread}/>
+                    <Thread key={`open` + currentThread._id} thread={currentThread}/>
                     <ThreadMessageForm thread={currentThread}/>
                   </div>
                 )}

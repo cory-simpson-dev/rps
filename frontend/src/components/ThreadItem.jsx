@@ -9,23 +9,23 @@ function ThreadItem({thread}) {
 
   // construct data for voting buttons component
   const threadId = thread._id
-  let userId
+  let userUsername
   if (user === null) {
-    userId = null
+    userUsername = null
   } else {
-    userId = user._id
+    userUsername = user.username
   }
 
-  let recipientId = thread.users.filter(id => id !== userId)
+  let recipientUsername = thread.users.filter(username => username !== userUsername)
   let lastMessageSentBy = thread.messages.slice(-1)[0].sender
 
   return (
     // ticket className only kept for current styles
     <div onClick={() => dispatch(getThread(threadId))} className="hover:cursor-pointer container mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-rows-[60px_60px)]">
       <div>
-        {recipientId}
+        {recipientUsername}
       </div>
-      <div className='text-xs'>Last message sent by {lastMessageSentBy === userId ? (
+      <div className='text-xs'>Last message sent by {lastMessageSentBy === userUsername ? (
         <span>
           you
         </span>

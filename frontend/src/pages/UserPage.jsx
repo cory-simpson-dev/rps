@@ -31,7 +31,7 @@ function UserPage() {
 
     const params = useParams()
     const dispatch = useDispatch()
-    const {userId} = params
+    const {username} = params
 
     useEffect(() => {
         return () => {
@@ -46,10 +46,10 @@ function UserPage() {
             toast.error(message)
         }
 
-        dispatch(getUserPosts(userId))
+        dispatch(getUserPosts(username))
         // dispatch not included as dependency because it will produce never ending loop, so we prevent eslint error with next line
         // eslint-disable-next-line
-    }, [isError, message, userId])
+    }, [isError, message, username])
 
     useEffect(() => {
         setCurrentPosts([...posts])
@@ -65,7 +65,7 @@ function UserPage() {
 
   return (
     <>
-        <h1>{userId.slice(0,7)} Posts</h1>
+        <h1>{username} Posts</h1>
         {/* ticket classNames only kept for current styles */}
         <div className="tickets">
             <div className="grid grid-cols-3 gap-4">
