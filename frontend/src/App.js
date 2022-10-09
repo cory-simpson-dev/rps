@@ -17,12 +17,12 @@ function App() {
     <>
       <Router>
         <div className="container h-full mx-auto">
-          <Header />
-          {/* can only ever have route components */}
-          <div className="relative overflow-hidden bg-white h-full">
-            <div className="mx-auto max-w-7xl">
-              <div className="relative z-9 bg-white pb-8 sm:pb-16 md:pb-20 lg:w-full">
-                <main className="mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="bg-white h-full">
+            <div className="mx-auto h-full max-w-7xl">
+              <div className="z-9 bg-white h-full lg:w-full grid grid-rows-[92px_1fr]">
+              <Header />
+                <main className="mx-auto py-8 max-w-7xl px-4 sm:px-6 lg:px-8 w-full overflow-auto">
+                  {/* can only ever have route components */}
                   <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/login' element={<Login />} />

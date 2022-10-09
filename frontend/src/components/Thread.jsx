@@ -1,6 +1,6 @@
 function Thread({thread}) {
   return (
-    <>
+    <div className="h-full overflow-auto border rounded-md">
       {(
         thread.messages.map((message) => {
           return <>
@@ -16,7 +16,7 @@ function Thread({thread}) {
           </>
         })
       )}
-    </>
+    </div>
   )
 }
 

@@ -37,9 +37,9 @@ function NewMessage() {
 
     return (
         <>
-        <section>
-            <h3>Send New Message</h3>
-        </section>
+            <section className="form">
+                <h3 className='text-center'>Send New Message</h3>
+            </section>
             <section className="form">
                 <form onSubmit={onSubmit}>
                     <div className="form-group">

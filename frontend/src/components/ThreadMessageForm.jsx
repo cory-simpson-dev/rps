@@ -33,7 +33,7 @@ function ThreadMessageForm({thread}) {
 
     return (
         <>
-            <section className="form">
+            <section className="w-full mt-2">
                 <form onSubmit={onSubmit}>
                     <div className="form-group">
                         <label htmlFor="text" className="sr-only">Text</label>
