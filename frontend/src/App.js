@@ -21,7 +21,7 @@ function App() {
             <div className="mx-auto h-full max-w-7xl">
               <div className="z-9 bg-white h-full lg:w-full grid grid-rows-[92px_1fr]">
               <Header />
-                <main className="mx-auto py-8 max-w-7xl px-4 sm:px-6 lg:px-8 w-full overflow-auto">
+                <main className="mx-auto py-2 max-w-7xl px-4 sm:px-6 sm:py-4 lg:px-8 w-full overflow-auto">
                   {/* can only ever have route components */}
                   <Routes>
                     <Route path='/' element={<Home />} />

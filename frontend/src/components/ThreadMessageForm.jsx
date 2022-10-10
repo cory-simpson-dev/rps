@@ -34,13 +34,13 @@ function ThreadMessageForm({thread}) {
     return (
         <>
             <section className="w-full mt-2">
-                <form onSubmit={onSubmit}>
-                    <div className="form-group">
+                <form className="h-full grid grid-rows-[1fr_42px] gap-2" onSubmit={onSubmit}>
+                    <div className="h-full">
                         <label htmlFor="text" className="sr-only">Text</label>
-                        <textarea name="text" id="text" className='form-control' placeholder='Text' value={text} onChange={(e) => setText(e.target.value)}></textarea>
+                        <textarea name="text" id="text" className='border rounded-md w-full h-full form-control' placeholder='Text' value={text} onChange={(e) => setText(e.target.value)}></textarea>
                     </div>
                     <div className="form-group">
-                        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 btn-block">Send</button>
+                        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 w-full">Send</button>
                     </div>
                 </form>
             </section>
