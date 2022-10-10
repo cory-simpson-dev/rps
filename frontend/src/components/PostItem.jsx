@@ -18,7 +18,7 @@ function PostItem({post}) {
   }
 
   return (
-      <div className="container mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-cols-[60px_minmax(250px,_1fr)]">
+      <div className="container max-h-40 mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-cols-[60px_minmax(250px,_1fr)] grid-rows-1 overflow-hidden">
         <div className="grid grid-cols-1 place-content-center">
           <VotingButtons 
             item={post}
@@ -27,11 +27,11 @@ function PostItem({post}) {
             dispatchData={{postId, userId}}
           />
         </div>
-      <Link to={`/post/${post._id}`}>
+      <Link className="overflow-hidden" to={`/post/${post._id}`}>
         <div className="grid grid-rows-[30px_50px_minmax(1fr,_100px)]">
           <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> <TimeSince item={post} /></p>
           <h4 className='truncate text-lg font-semibold'>{post.title}</h4>
-          <p className='truncate'>{post.body}</p>
+          <p className='truncate whitespace-pre-wrap'>{post.body}</p>
         </div>
       </Link>
       </div>

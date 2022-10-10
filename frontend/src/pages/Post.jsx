@@ -99,7 +99,7 @@ function Post() {
         <div className="grid grid-rows-[30px_50px_1fr_30px]">
           <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> <TimeSince item={post} /></p>
           <h4 className='text-lg font-semibold'>{post.title}</h4>
-          <p>{post.body}</p>
+          <p className="whitespace-pre-wrap">{post.body}</p>
           <p className='text-sm text-gray-500'>{comments.length} comments</p>
         </div>
       </div>

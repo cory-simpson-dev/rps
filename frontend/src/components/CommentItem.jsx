@@ -20,7 +20,7 @@ function CommentItem({comment}) {
   }
 
   return (
-    <div className="container mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-cols-[60px_minmax(250px,_1fr)]">
+    <div className="container mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-cols-[60px_minmax(250px,_1fr)] grid-rows-1">
         <div className="grid grid-cols-1 place-content-center">
           <VotingButtons 
             item={comment}
@@ -31,7 +31,7 @@ function CommentItem({comment}) {
         </div>
         <div className="grid grid-rows-[30px_minmax(1fr,_200px)]">
           <p className='truncate text-sm'><Link to={`/user/${comment.username}`} className='text-primary hover:text-purple-600'>{comment.username} </Link> <TimeSince item={comment} /></p>
-          <p>{comment.text}</p>
+          <p className="whitespace-pre-wrap">{comment.text}</p>
         </div>
     </div>
 
