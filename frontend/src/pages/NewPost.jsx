@@ -2,6 +2,8 @@ import {useState, useEffect} from 'react'
 // get user from global state using useSelector
 import {useSelector, useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import {toast} from 'react-toastify'
 import {createPost, resetPost} from '../features/posts/postSlice'
 import Spinner from '../components/Spinner'
@@ -56,7 +58,24 @@ function NewPost() {
                 </div>
                 <div className="form-group">
                     <label htmlFor="body">Body</label>
-                    <textarea name="body" id="body" className='form-control' value={body} onChange={(e) => setBody(e.target.value)}></textarea>
+                    {/* <textarea name="body" id="body" className='form-control' value={body} onChange={(e) => setBody(e.target.value)}></textarea> */}
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data={body}
+                        config={ {
+                            toolbar: {
+                                items: [ 'bold', 'italic', '|', 'undo', 'redo',]
+                            }
+                        } }
+                        onReady={ editor => {
+                            // You can store the "editor" and use when it is needed.
+                            console.log( 'Editor is ready to use!', editor );
+                        } }
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setBody(data)
+                        } }
+                    />
                 </div>
                 <div className="form-group">
                     <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 btn-block">Submit</button>

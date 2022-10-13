@@ -1,6 +1,7 @@
 import {useSelector } from 'react-redux'
 import { upvotePost, downvotePost } from '../features/posts/postSlice'
 import { Link } from 'react-router-dom'
+import parse from 'html-react-parser'
 import VotingButtons from './VotingButtons'
 import TimeSince from './TimeSince'
 
@@ -31,7 +32,7 @@ function PostItem({post}) {
         <div className="grid grid-rows-[30px_50px_minmax(1fr,_100px)]">
           <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> <TimeSince item={post} /></p>
           <h4 className='truncate text-lg font-semibold'>{post.title}</h4>
-          <p className='truncate whitespace-pre-wrap'>{post.body}</p>
+          <div className='truncate whitespace-pre-wrap'>{parse(post.body)}</div>
         </div>
       </Link>
       </div>

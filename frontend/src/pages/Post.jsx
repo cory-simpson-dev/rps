@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {getPost, upvotePost, downvotePost, resetPost} from '../features/posts/postSlice'
 import { getComments, createComment, reset as commentsReset } from '../features/comments/commentSlice'
 import { useParams, Link } from 'react-router-dom'
+import parse from 'html-react-parser'
 import Spinner from '../components/Spinner'
 import CommentItem from '../components/CommentItem'
 import VotingButtons from '../components/VotingButtons'
@@ -42,6 +43,13 @@ function Post() {
     } else {
       userId = user._id
     }
+
+    let postBody = String(post.body)
+    // if (user === null) {
+    //   userId = null
+    // } else {
+    //   userId = user._id
+    // }
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -99,7 +107,7 @@ function Post() {
         <div className="grid grid-rows-[30px_50px_1fr_30px]">
           <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> <TimeSince item={post} /></p>
           <h4 className='text-lg font-semibold'>{post.title}</h4>
-          <p className="whitespace-pre-wrap">{post.body}</p>
+          <div className="whitespace-pre-wrap">{parse(postBody)}</div>
           <p className='text-sm text-gray-500'>{comments.length} comments</p>
         </div>
       </div>
