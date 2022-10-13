@@ -45,11 +45,6 @@ function Post() {
     }
 
     let postBody = String(post.body)
-    // if (user === null) {
-    //   userId = null
-    // } else {
-    //   userId = user._id
-    // }
 
     const params = useParams()
     const dispatch = useDispatch()
