@@ -10,6 +10,7 @@ const Post = require('../models/postModel')
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
     const {username, email, password} = req.body
+    const lowerCaseUsername = username.toLowerCase()
 
     // Validation
     if(!username || !email || !password) {
@@ -18,8 +19,8 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // Find if user already exists
-    const usernameExists = await User.findOne({username})
-    
+    const usernameExists = await User.findOne({lowerCaseUsername})
+
     if(usernameExists) {
         res.status(400)
         throw new Error('That username is already taken')
@@ -29,7 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if(userEmailExists) {
         res.status(400)
-        throw new Error('User already exists')
+        throw new Error('That email is already in use')
     }
 
     // Hash password
@@ -39,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
     // Create user
     const user = await User.create({
         username,
+        lowerCaseUsername,
         email,
         password: hashedPassword
     })
@@ -57,7 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 })
 
-// @desc    Register a new user
+// @desc    Log in a user
 // @route   /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
