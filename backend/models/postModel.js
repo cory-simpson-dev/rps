@@ -18,6 +18,12 @@ const postSchema = mongoose.Schema({
         type: String,
         default: 'test body',
     },
+    mediaUrl: {
+        type: String,
+    },
+    mediaType: {
+        type: String,
+    },
     upvotedBy: {
         type: Array,
     },

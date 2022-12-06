@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import {toast} from 'react-toastify'
+import ReactPlayer from 'react-player'
 import Modal from 'react-modal'
 import {useSelector, useDispatch} from 'react-redux'
 import {getPost, upvotePost, downvotePost, resetPost} from '../features/posts/postSlice'
@@ -99,9 +100,19 @@ function Post() {
             dispatchData={{postId, userId}}
           />
         </div>
-        <div className="grid grid-rows-[30px_50px_1fr_30px]">
+        <div className="flex flex-col">
           <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> <TimeSince item={post} /></p>
           <h4 className='text-lg font-semibold'>{post.title}</h4>
+          {post.mediaType === 'image' && 
+            <figure className="py-2 mx-auto">
+              <img className="md:max-w-lg" src={post.mediaUrl} alt={post.mediaUrl}/>
+            </figure>
+          }
+          {post.mediaType === 'video' && 
+            <figure className="py-2 mx-auto">
+              <ReactPlayer url={post.mediaUrl} />
+            </figure>
+          }
           <div className="whitespace-pre-wrap">{parse(postBody)}</div>
           <p className='text-sm text-gray-500'>{comments.length} comments</p>
         </div>

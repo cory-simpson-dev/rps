@@ -1,6 +1,7 @@
 import {useSelector } from 'react-redux'
 import { upvotePost, downvotePost } from '../features/posts/postSlice'
 import { Link } from 'react-router-dom'
+import ReactPlayer from 'react-player'
 import parse from 'html-react-parser'
 import VotingButtons from './VotingButtons'
 import TimeSince from './TimeSince'
@@ -19,7 +20,7 @@ function PostItem({post}) {
   }
 
   return (
-      <div className="container max-h-40 mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-cols-[60px_minmax(250px,_1fr)] grid-rows-1 overflow-hidden">
+      <div className="container mx-auto p-3 mb-6 rounded-sm shadow hover:shadow-lg grid grid-cols-[60px_minmax(250px,_1fr)] grid-rows-1 overflow-hidden">
         <div className="grid grid-cols-1 place-content-center">
           <VotingButtons 
             item={post}
@@ -29,10 +30,20 @@ function PostItem({post}) {
           />
         </div>
       <Link className="overflow-hidden" to={`/post/${post._id}`}>
-        <div className="grid grid-rows-[30px_50px_minmax(1fr,_100px)]">
+        <div className="flex flex-col">
           <p className='truncate text-sm'>Posted by <Link to={`/user/${post.username}`} className='text-primary hover:text-purple-600'>{post.username}</Link> <TimeSince item={post} /></p>
-          <h4 className='truncate text-lg font-semibold'>{post.title}</h4>
-          <div className='truncate whitespace-pre-wrap'>{parse(post.body)}</div>
+          <h4 className='break-normal text-lg font-semibold'>{post.title}</h4>
+          {post.mediaType === 'image' && 
+            <figure className="py-2 mx-auto">
+              <img className='md:max-w-sm' src={post.mediaUrl} alt={post.mediaUrl}/>
+            </figure>
+          }
+          {post.mediaType === 'video' && 
+            <figure className="py-2 mx-auto">
+              <ReactPlayer url={post.mediaUrl} />
+            </figure>
+          }
+          <div className='max-h-40 truncate whitespace-pre-wrap text-xs sm:text-base'>{parse(post.body)}</div>
         </div>
       </Link>
       </div>
